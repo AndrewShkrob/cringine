@@ -31,14 +31,8 @@ jobs:
           mkdir build
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
-      - name: Build GCC/Clang
-        if: startsWith(matrix.config.os, 'windows') == false
+      - name: Build
         shell: bash
         run: |
           cd build
-          make -j4
-      - name: Build MSVC
-        if: startsWith(matrix.config.os, 'windows')
-        run: |
-          cd build
-          make -j4
+          cmake --build . --config ${{matrix.build_type}}
