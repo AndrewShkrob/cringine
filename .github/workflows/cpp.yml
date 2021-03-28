@@ -47,4 +47,4 @@ jobs:
       - name: build
         shell: bash
         run: |
-          make -j${nproc --all}
+          make -j`nproc --all`
