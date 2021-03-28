@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   job:
-    name: ${{matrix.config.name}}
+    name: ${{matrix.config.name}} - ${{matrix.build_type}}
     runs-on: ${{matrix.config.os}}
     strategy:
       fail-fast: false
@@ -47,4 +47,4 @@ jobs:
       - name: build
         shell: bash
         run: |
-          make -j{nproc --all}
+          make -j${nproc --all}
