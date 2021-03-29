@@ -24,6 +24,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get install -y libxrandr2 libxrandr-dev
+          sudo apt-get install -y libxinerama-dev
       - name: Configure
         shell: bash
         run: |
