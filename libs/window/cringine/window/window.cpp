@@ -1,6 +1,6 @@
 #include "window.hpp"
 
-#include <exception>
+#include <stdexcept>
 #include <utility>
 
 using namespace cringine;
@@ -26,7 +26,7 @@ window::window(int width, int height, std::string title)
     m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), nullptr, nullptr);
     if (m_window == nullptr) {
         terminate_glfw();
-        throw std::exception("Failed to create GLFW window");
+        throw std::runtime_error("Failed to create GLFW window");
     }
     glfwMakeContextCurrent(m_window);
 }
