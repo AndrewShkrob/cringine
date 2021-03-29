@@ -1,0 +1,2 @@
+add_executable(study_create_window main.cpp)
+target_link_libraries(study_create_window glfw libglew_static)
