@@ -16,7 +16,16 @@ jobs:
             os: ubuntu-latest
           }
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
+      - name: Install dependencies
+        shell: bash
+        run: |
+          sudo apt-get install -y libxrandr2 libxrandr-dev
+          sudo apt-get install -y libxinerama-dev libxcursor-dev libxi-dev
+          sudo apt-get install -y libgl1-mesa-dev
       - name: Configure
         shell: bash
         run: |
