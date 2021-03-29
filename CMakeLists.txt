@@ -4,4 +4,5 @@ project(cringine)
 set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory(third_party)
+add_subdirectory(libs)
 add_subdirectory(study)

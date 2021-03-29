@@ -1,0 +1,2 @@
+add_executable(study_create_triangle main.cpp)
+target_link_libraries(study_create_triangle cringine_window libglew_static)
