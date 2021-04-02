@@ -6,6 +6,7 @@
 #include <cringine/window/window.hpp>
 
 #include <iostream>
+#include <cmath>
 
 GLuint load_texture(const std::string &img_path) {
     int width;
