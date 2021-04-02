@@ -9,6 +9,8 @@ namespace cringine {
 
         void use();
 
+        GLuint program() const;
+
     private:
         GLuint m_program;
     };
