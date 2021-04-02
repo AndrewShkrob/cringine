@@ -4,3 +4,6 @@
 [submodule "third_party/glew-cmake"]
 	path = third_party/glew-cmake
 	url = https://github.com/Perlmint/glew-cmake
+[submodule "third_party/soil2-cmake"]
+	path = third_party/soil2-cmake
+	url = https://github.com/Jacob-Tate/soil2-cmake
