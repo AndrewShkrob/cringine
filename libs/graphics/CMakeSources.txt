@@ -1,4 +1,6 @@
 set(CRINGINE_GRAPHICS_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/graphics/camera.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/graphics/camera.cpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/graphics/shader_program.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/graphics/shader_program.cpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/graphics/shader_program_builder.hpp
