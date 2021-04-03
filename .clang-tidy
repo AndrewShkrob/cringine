@@ -7,6 +7,7 @@ Checks: >-
   cppcoreguidelines-*,
   clang-analyzer-*,
   hicpp-*,
+  -hicpp-uppercase-literal-suffix,
   misc-*,
   modernize-*,
   -modernize-use-trailing-return-type,
@@ -14,6 +15,7 @@ Checks: >-
   performance-*,
   portability-*,
   readability-*,
+  -readability-uppercase-literal-suffix,
 FormatStyle:     file
 CheckOptions:
   - key:             bugprone-assert-side-effect.AssertMacros
