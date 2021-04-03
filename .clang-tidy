@@ -9,6 +9,7 @@ Checks: >-
   hicpp-*,
   misc-*,
   modernize-*,
+  -modernize-use-trailing-return-type,
   objc-*,
   performance-*,
   portability-*,

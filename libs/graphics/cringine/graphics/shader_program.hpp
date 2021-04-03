@@ -2,8 +2,10 @@
 
 #include <GL/glew.h>
 
-namespace cringine {
-    class shader_program {
+namespace cringine
+{
+    class shader_program
+    {
     public:
         explicit shader_program(GLuint program);
 
@@ -14,4 +16,4 @@ namespace cringine {
     private:
         GLuint m_program;
     };
-}// namespace cringine
+} // namespace cringine
