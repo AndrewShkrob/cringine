@@ -59,8 +59,8 @@ void camera::process_mouse_move(float x_offset, float y_offset, bool constrain_p
     m_pitch += y_offset;
 
     if (constrain_pitch) {
-        m_pitch = std::max(m_pitch, PITCH_MIN);
-        m_pitch = std::min(m_pitch, PITCH_MAX);
+        m_pitch = std::fmax(m_pitch, PITCH_MIN);
+        m_pitch = std::fmin(m_pitch, PITCH_MAX);
     }
 
     update_vectors();
@@ -69,8 +69,8 @@ void camera::process_mouse_move(float x_offset, float y_offset, bool constrain_p
 void camera::process_mouse_scroll(float y_offset)
 {
     m_zoom -= y_offset;
-    m_zoom = std::max(m_zoom, ZOOM_MIN);
-    m_zoom = std::min(m_zoom, ZOOM_MAX);
+    m_zoom = std::fmax(m_zoom, ZOOM_MIN);
+    m_zoom = std::fmin(m_zoom, ZOOM_MAX);
 }
 
 void camera::update_vectors()
