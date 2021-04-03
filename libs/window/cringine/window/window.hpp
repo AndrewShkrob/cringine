@@ -5,23 +5,30 @@
 
 #include <GLFW/glfw3.h>
 
-namespace cringine {
-    class window {
+namespace cringine
+{
+    class window
+    {
     public:
         using render_func = std::function<void()>;
 
         window(int width, int height, std::string title);
+        window(const window&) = default;
+        window(window&&) = default;
         ~window();
+
+        window& operator=(const window&) = default;
+        window& operator=(window&&) = default;
 
         [[nodiscard]] int width() const;
         [[nodiscard]] int height() const;
 
-        void launch(const render_func& func);
+        void launch(const render_func& render);
 
     private:
         int m_width;
         int m_height;
-        const std::string m_title;
-        GLFWwindow *m_window;
+        std::string m_title;
+        GLFWwindow* m_window;
     };
-}// namespace cringine
+} // namespace cringine

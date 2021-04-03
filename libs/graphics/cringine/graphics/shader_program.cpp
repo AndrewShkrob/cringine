@@ -3,12 +3,16 @@
 using namespace cringine;
 
 cringine::shader_program::shader_program(GLuint program)
-    : m_program(program) {}
+    : m_program(program)
+{
+}
 
-void cringine::shader_program::use() const {
+void cringine::shader_program::use() const
+{
     glUseProgram(m_program);
 }
 
-GLuint cringine::shader_program::program() const {
+GLuint cringine::shader_program::program() const
+{
     return m_program;
 }
