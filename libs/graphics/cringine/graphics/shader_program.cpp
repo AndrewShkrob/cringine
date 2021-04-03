@@ -5,7 +5,7 @@ using namespace cringine;
 cringine::shader_program::shader_program(GLuint program)
     : m_program(program) {}
 
-void cringine::shader_program::use() {
+void cringine::shader_program::use() const {
     glUseProgram(m_program);
 }
 

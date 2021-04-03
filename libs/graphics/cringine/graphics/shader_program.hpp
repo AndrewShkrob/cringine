@@ -7,9 +7,9 @@ namespace cringine {
     public:
         explicit shader_program(GLuint program);
 
-        void use();
+        void use() const;
 
-        GLuint program() const;
+        [[nodiscard]] GLuint program() const;
 
     private:
         GLuint m_program;
