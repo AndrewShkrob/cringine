@@ -32,6 +32,11 @@ float camera::zoom() const
     return m_zoom;
 }
 
+glm::vec3 camera::position() const
+{
+    return m_position;
+}
+
 void camera::process_keyboard(camera::direction direction, float delta_time)
 {
     float velocity = m_movement_speed * delta_time;
