@@ -38,6 +38,7 @@ namespace cringine
 
         [[nodiscard]] glm::mat4 view_matrix() const;
         [[nodiscard]] float zoom() const;
+        [[nodiscard]] glm::vec3 position() const;
 
         void process_keyboard(camera::direction direction, float delta_time);
         void process_mouse_move(float x_offset, float y_offset, bool constrain_pitch = true);
