@@ -19,6 +19,7 @@ camera::camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
     , m_mouse_sensitivity(DEFAULT_SENSITIVITY)
     , m_zoom(DEFAULT_ZOOM)
 {
+    update_vectors();
 }
 
 glm::mat4 camera::view_matrix() const
