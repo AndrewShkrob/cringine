@@ -15,6 +15,8 @@ namespace cringine
 
         [[nodiscard]] GLuint program() const;
 
+        void set_uniform_1f(const std::string& uniform_name, GLfloat value) const;
+
         void set_uniform_3f(const std::string& uniform_name, GLfloat v0, GLfloat v1, GLfloat v2) const;
 
         void set_uniform_matrix4fv(const std::string& uniform_name, GLsizei count, GLboolean transpose, const GLfloat* value) const;
