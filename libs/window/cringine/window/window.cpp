@@ -14,7 +14,6 @@ namespace
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
     }
 
     void terminate_glfw()
@@ -24,6 +23,12 @@ namespace
 
     struct callbacks
     {
+        static inline void window_size_callback_func(GLFWwindow* window, int width, int height)
+        {
+            _window_size_callback(width, height);
+            window_size_callback(width, height);
+        }
+
         static inline void key_callback_func(GLFWwindow* window, int key, int /*unused*/, int action, int /*unused*/)
         {
             if (key == GLFW_KEY_ESCAPE) {
@@ -42,11 +47,15 @@ namespace
             scroll_callback(x_offset, y_offset);
         }
 
+        static window::window_sise_callback_func window_size_callback;
+        static window::window_sise_callback_func _window_size_callback;
         static window::key_callback_func key_callback;
         static window::mouse_callback_func mouse_callback;
         static window::scroll_callback_func scroll_callback;
     };
 
+    window::window_sise_callback_func callbacks::window_size_callback{};
+    window::window_sise_callback_func callbacks::_window_size_callback{};
     window::key_callback_func callbacks::key_callback{};
     window::mouse_callback_func callbacks::mouse_callback{};
     window::scroll_callback_func callbacks::scroll_callback{};
@@ -67,6 +76,10 @@ window::window(int width, int height, std::string title)
     }
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwMakeContextCurrent(m_window);
+    callbacks::_window_size_callback = [this](int width, int height) {
+        m_width = width;
+        m_height = height;
+    };
 }
 
 window::~window()
@@ -82,6 +95,12 @@ int window::width() const
 int window::height() const
 {
     return m_height;
+}
+
+void window::set_window_size_callback(window_sise_callback_func callback)
+{
+    callbacks::window_size_callback = std::move(callback);
+    glfwSetWindowSizeCallback(m_window, callbacks::window_size_callback_func);
 }
 
 void window::set_key_callback(key_callback_func callback)

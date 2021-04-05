@@ -11,6 +11,8 @@ namespace cringine
     {
     public:
         using render_func = std::function<void()>;
+
+        using window_sise_callback_func = std::function<void(int width, int height)>;
         using key_callback_func = std::function<void(int key, int action)>;
         using mouse_callback_func = std::function<void(double x_pos, double y_pos)>;
         using scroll_callback_func = std::function<void(double x_offset, double y_offset)>;
@@ -26,6 +28,7 @@ namespace cringine
         [[nodiscard]] int width() const;
         [[nodiscard]] int height() const;
 
+        void set_window_size_callback(window_sise_callback_func callback);
         void set_key_callback(key_callback_func callback);
         void set_mouse_callback(mouse_callback_func callback);
         void set_scroll_callback(scroll_callback_func callback);
