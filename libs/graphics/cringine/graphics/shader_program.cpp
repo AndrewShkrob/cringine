@@ -17,6 +17,12 @@ GLuint shader_program::program() const
     return m_program;
 }
 
+void shader_program::set_uniform_1i(const std::string& uniform_name, GLint value) const
+{
+    GLint uniform_location = get_uniform_location(uniform_name);
+    glUniform1i(uniform_location, value);
+}
+
 void shader_program::set_uniform_1f(const std::string& uniform_name, GLfloat value) const
 {
     GLint uniform_location = get_uniform_location(uniform_name);
