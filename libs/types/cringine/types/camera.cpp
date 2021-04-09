@@ -5,7 +5,7 @@
 #include <glm/trigonometric.hpp>
 #include <glm/ext/matrix_transform.hpp>
 
-using namespace cringine;
+using namespace cringine::types;
 
 camera::camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
     : m_position(position)
