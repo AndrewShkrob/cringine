@@ -1,3 +1,4 @@
+add_subdirectory(graphics)
+add_subdirectory(types)
 add_subdirectory(utils)
 add_subdirectory(window)
-add_subdirectory(graphics)
