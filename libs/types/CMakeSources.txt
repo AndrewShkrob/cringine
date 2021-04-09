@@ -4,4 +4,6 @@ set(CRINGINE_TYPES_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/cringine/types/lighting/directional_light.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/types/lighting/point_light.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/types/lighting/spot_light.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/types/camera.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/types/camera.cpp
 )
