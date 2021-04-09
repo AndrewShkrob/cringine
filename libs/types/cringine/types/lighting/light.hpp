@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cringine/types/lighting/lighting_type.hpp>
-
 #include <glm/vec3.hpp>
 
 namespace cringine::types::lighting
@@ -10,7 +8,7 @@ namespace cringine::types::lighting
     {
         enum class lighting_type : short
         {
-            DIRECTIONAL,
+            DIRECTIONAL = 0,
             POINT,
             SPOT
         };
