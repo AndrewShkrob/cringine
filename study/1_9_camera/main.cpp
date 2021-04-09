@@ -6,7 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <cringine/graphics/shader_program_builder.hpp>
-#include <cringine/graphics/camera.hpp>
+#include <cringine/types/camera.hpp>
 #include <cringine/window/window.hpp>
 
 #include <cmath>
@@ -100,26 +100,26 @@ GLuint generate_cube_vao()
     return VAO;
 }
 
-void move_camera(cringine::camera& camera, float delta_time, const std::array<bool, 1024>& keys)
+void move_camera(cringine::types::camera& camera, float delta_time, const std::array<bool, 1024>& keys)
 {
     if (keys[GLFW_KEY_W]) {
-        camera.process_keyboard(cringine::camera::direction::FORWARD, delta_time);
+        camera.process_keyboard(cringine::types::camera::direction::FORWARD, delta_time);
     }
     if (keys[GLFW_KEY_S]) {
-        camera.process_keyboard(cringine::camera::direction::BACKWARD, delta_time);
+        camera.process_keyboard(cringine::types::camera::direction::BACKWARD, delta_time);
     }
     if (keys[GLFW_KEY_A]) {
-        camera.process_keyboard(cringine::camera::direction::LEFT, delta_time);
+        camera.process_keyboard(cringine::types::camera::direction::LEFT, delta_time);
     }
     if (keys[GLFW_KEY_D]) {
-        camera.process_keyboard(cringine::camera::direction::RIGHT, delta_time);
+        camera.process_keyboard(cringine::types::camera::direction::RIGHT, delta_time);
     }
 }
 
 int main()
 {
     cringine::window window(800, 600, "LearnOpenGL");
-    cringine::camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+    cringine::types::camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
