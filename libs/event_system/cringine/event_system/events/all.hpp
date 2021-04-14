@@ -1,2 +1,14 @@
 #include <cringine/event_system/events/window_close.hpp>
+#include <cringine/event_system/events/window_position.hpp>
 #include <cringine/event_system/events/window_resize.hpp>
+#include <cringine/event_system/events/window_focus.hpp>
+#include <cringine/event_system/events/window_refresh.hpp>
+#include <cringine/event_system/events/window_iconify.hpp>
+#include <cringine/event_system/events/window_maximize.hpp>
+#include <cringine/event_system/events/keyboard_input.hpp>
+#include <cringine/event_system/events/char_input.hpp>
+#include <cringine/event_system/events/cursor_position.hpp>
+#include <cringine/event_system/events/cursor_focus.hpp>
+#include <cringine/event_system/events/mouse_button_input.hpp>
+#include <cringine/event_system/events/scroll_input.hpp>
+#include <cringine/event_system/events/path_drop.hpp>
