@@ -1,4 +1,5 @@
 set(CRINGINE_UTILS_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/utils/fps_counter.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/utils/load_from_file.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/utils/load_from_file.cpp
 )
