@@ -1,8 +1,12 @@
 #pragma once
 
-#include <functional>
-
 namespace cringine::event_system::events
 {
-    using window_close_event = std::function<void()>;
+    class window_close_event
+    {
+    public:
+        virtual void window_close() = 0;
+    };
+
+    using window_close_event_ptr = window_close_event*;
 } // namespace cringine::event_system::events

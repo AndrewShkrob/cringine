@@ -10,7 +10,7 @@
 
 namespace cringine
 {
-    class window
+    class window : event_system::events::window_resize_event
     {
     public:
         explicit window(const types::configuration::window_configuration& window_config);
@@ -32,7 +32,7 @@ namespace cringine
         void render() const;
 
     private:
-        void window_resize(int new_width, int new_height);
+        void window_resize(int new_width, int new_height) override;
 
         int m_width;
         int m_height;

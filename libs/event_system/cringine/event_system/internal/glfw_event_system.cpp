@@ -16,14 +16,14 @@ glfw_event_system::glfw_event_system(GLFWwindow* window)
     init();
 }
 
-void glfw_event_system::register_window_close_callback(events::window_close_event callback)
+void glfw_event_system::register_window_close_callback(events::window_close_event_ptr callback)
 {
-    m_window_close_callbacks.push_back(std::move(callback));
+    m_window_close_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_window_resize_callback(events::window_resize_event callback)
+void glfw_event_system::register_window_resize_callback(events::window_resize_event_ptr callback)
 {
-    m_window_resize_callbacks.push_back(std::move(callback));
+    m_window_resize_observer.add_observer(callback);
 }
 
 void glfw_event_system::init()
@@ -31,14 +31,10 @@ void glfw_event_system::init()
     glfwSetWindowUserPointer(m_window, this);
     glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window) {
         auto& self = *static_cast<glfw_event_system*>(glfwGetWindowUserPointer(window));
-        for (auto& callback : self.m_window_close_callbacks) {
-            callback();
-        }
+        self.m_window_close_observer.notify(&events::window_close_event::window_close);
     });
     glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
         auto& self = *static_cast<glfw_event_system*>(glfwGetWindowUserPointer(window));
-        for (auto& callback : self.m_window_resize_callbacks) {
-            callback(width, height);
-        }
+        self.m_window_resize_observer.notify(&events::window_resize_event::window_resize, width, height);
     });
 }

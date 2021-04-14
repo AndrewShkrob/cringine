@@ -9,7 +9,7 @@
 
 namespace cringine
 {
-    class engine
+    class engine : cringine::event_system::events::window_close_event
     {
     public:
         using render_func = std::function<void()>;
@@ -26,10 +26,9 @@ namespace cringine
 
         [[nodiscard]] double time() const;
 
-    protected:
-        void window_close();
-
     private:
+        void window_close() override;
+
         void init_event_system();
 
         void loop(const render_func& func);

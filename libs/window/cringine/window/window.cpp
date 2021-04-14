@@ -44,7 +44,7 @@ window::window(int width, int height, std::string title)
     m_event_system = std::make_shared<event_system::glfw_event_system>(m_window);
     //    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwMakeContextCurrent(m_window);
-    m_event_system->register_window_resize_callback([this](int width, int height) { window_resize(width, height); });
+    m_event_system->register_window_resize_callback(this);
 }
 
 window::~window()

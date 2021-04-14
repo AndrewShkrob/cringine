@@ -2,13 +2,13 @@
 
 #include <iostream>
 
-class a
+class a : cringine::event_system::events::window_close_event
 {
 public:
     void launch()
     {
         cringine::engine engine({800, 600, "Hello"});
-        engine.event_system()->register_window_close_callback([this]() { window_close(); });
+        engine.event_system()->register_window_close_callback(this);
         engine.start([&engine]() {
             auto r = (sin(engine.time()) + 1) / 2;
             auto g = (cos(engine.time()) + 1) / 2;
@@ -20,7 +20,7 @@ public:
         });
     }
 
-    void window_close()
+    void window_close() override
     {
         std::cout << "CLOSE" << std::endl;
     }

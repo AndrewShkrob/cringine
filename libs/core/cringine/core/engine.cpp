@@ -43,7 +43,7 @@ void engine::window_close()
 
 void engine::init_event_system()
 {
-    m_event_system->register_window_close_callback([this]() { window_close(); });
+    m_event_system->register_window_close_callback(this);
 }
 
 void engine::loop(const render_func& func)

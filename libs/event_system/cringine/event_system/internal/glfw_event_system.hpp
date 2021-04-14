@@ -1,10 +1,9 @@
 #pragma once
 
 #include <cringine/event_system/event_system.hpp>
+#include <cringine/utils/observer.hpp>
 
 #include <GLFW/glfw3.h>
-
-#include <vector>
 
 namespace cringine::event_system
 {
@@ -20,15 +19,15 @@ namespace cringine::event_system
         glfw_event_system& operator=(glfw_event_system&) = delete;
         glfw_event_system& operator=(glfw_event_system&&) = default;
 
-        void register_window_close_callback(events::window_close_event callback) override;
+        void register_window_close_callback(events::window_close_event_ptr callback) override;
 
-        void register_window_resize_callback(events::window_resize_event callback) override;
+        void register_window_resize_callback(events::window_resize_event_ptr callback) override;
 
     private:
         void init();
 
         GLFWwindow* m_window;
-        std::vector<events::window_close_event> m_window_close_callbacks;
-        std::vector<events::window_resize_event> m_window_resize_callbacks;
+        utils::observer<events::window_close_event> m_window_close_observer;
+        utils::observer<events::window_resize_event> m_window_resize_observer;
     };
 } // namespace cringine::event_system
