@@ -2,16 +2,17 @@
 
 #include <SOIL2.h>
 
+#include <cringine/core/engine.hpp>
 #include <cringine/graphics/shader_program_builder.hpp>
-#include <cringine/window/window.hpp>
 
 #include <iostream>
 #include <cmath>
 
-GLuint load_texture(const std::string &img_path) {
+GLuint load_texture(const std::string& img_path)
+{
     int width;
     int height;
-    unsigned char *image = SOIL_load_image(img_path.c_str(), &width, &height, nullptr, SOIL_LOAD_RGB);
+    unsigned char* image = SOIL_load_image(img_path.c_str(), &width, &height, nullptr, SOIL_LOAD_RGB);
     GLuint texture;
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -26,15 +27,12 @@ GLuint load_texture(const std::string &img_path) {
     return texture;
 }
 
-GLuint generate_rect_vao() {
+GLuint generate_rect_vao()
+{
     GLfloat vertices[] = {
-            0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-            0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-            -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f};
+        0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f};
     GLuint indices[] = {
-            0, 1, 3,
-            1, 2, 3};
+        0, 1, 3, 1, 2, 3};
 
     GLuint VBO;
     GLuint VAO;
@@ -49,19 +47,20 @@ GLuint generate_rect_vao() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *) nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*) nullptr);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *) (3 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*) (3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *) (6 * sizeof(GLfloat)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*) (6 * sizeof(GLfloat)));
     glEnableVertexAttribArray(2);
     glBindVertexArray(0);
 
     return VAO;
 }
 
-int main() {
-    cringine::window window(800, 600, "LearnOpenGL");
+int main()
+{
+    cringine::engine engine({800, 600, "LearnOpenGL"});
 
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
@@ -69,16 +68,16 @@ int main() {
         return -1;
     }
 
-    glViewport(0, 0, window.width(), window.height());
+    glViewport(0, 0, engine.window().width(), engine.window().height());
 
     cringine::shader_program shaderProgram =
-            cringine::shader_program_builder().add_vertex_shader("shaders/shader.vertex").add_fragment_shader("shaders/shader.fragment").build();
+        cringine::shader_program_builder().add_vertex_shader("shaders/shader.vertex").add_fragment_shader("shaders/shader.fragment").build();
 
     GLuint rectVAO = generate_rect_vao();
     GLuint texture1 = load_texture("textures/container.jpg");
     GLuint texture2 = load_texture("textures/awesomeface.png");
 
-    window.launch([&shaderProgram, rectVAO, texture1, texture2]() {
+    engine.start([&shaderProgram, rectVAO, texture1, texture2]() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 

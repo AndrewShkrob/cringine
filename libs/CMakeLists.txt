@@ -1,3 +1,5 @@
+add_subdirectory(core)
+add_subdirectory(event_system)
 add_subdirectory(graphics)
 add_subdirectory(types)
 add_subdirectory(utils)

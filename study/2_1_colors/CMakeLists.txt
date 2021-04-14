@@ -1,8 +1,6 @@
 add_executable(study_2_1_colors main.cpp)
 target_link_libraries(study_2_1_colors
-    cringine_window
-    cringine_graphics
-    cringine_types
+    cringine_core
     libglew_static
     soil2
     glm

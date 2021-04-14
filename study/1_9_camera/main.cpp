@@ -7,7 +7,7 @@
 
 #include <cringine/graphics/shader_program_builder.hpp>
 #include <cringine/types/camera.hpp>
-#include <cringine/window/window.hpp>
+#include <cringine/core/engine.hpp>
 
 #include <cmath>
 #include <iostream>
@@ -118,7 +118,7 @@ void move_camera(cringine::types::camera& camera, float delta_time, const std::a
 
 int main()
 {
-    cringine::window window(800, 600, "LearnOpenGL");
+    cringine::engine engine({800, 600, "LearnOpenGL"});
     cringine::types::camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
     glewExperimental = GL_TRUE;
@@ -128,7 +128,7 @@ int main()
     }
 
     glEnable(GL_DEPTH_TEST);
-    glViewport(0, 0, window.width(), window.height());
+    glViewport(0, 0, engine.window().width(), engine.window().height());
 
     cringine::shader_program shaderProgram =
         cringine::shader_program_builder().add_vertex_shader("shaders/shader.vertex").add_fragment_shader("shaders/shader.fragment").build();
@@ -150,42 +150,43 @@ int main()
         glm::vec3(-1.3f, 1.0f, -1.5f)};
 
     std::array<bool, 1024> keys{false};
-    window.set_key_callback([&keys](int key, int action) {
-        if (key >= 0 && key < 1024) {
-            if (action == GLFW_PRESS) {
-                keys[key] = true;
-            } else if (action == GLFW_RELEASE) {
-                keys[key] = false;
-            }
-        }
-    });
-
-    GLfloat lastX = window.width() / 2;
-    GLfloat lastY = window.height() / 2;
-
-    bool firstMouse = true;
-    window.set_mouse_callback([&](double x_pos, double y_pos) {
-        if (firstMouse) {
-            lastX = x_pos;
-            lastY = y_pos;
-            firstMouse = false;
-        }
-        float x_offset = x_pos - lastX;
-        float y_offset = lastY - y_pos;
-        lastX = x_pos;
-        lastY = y_pos;
-
-        camera.process_mouse_move(x_offset, y_offset);
-    });
-
-    window.set_scroll_callback([&camera](double /*x_offset*/, double y_offset) {
-        camera.process_mouse_scroll(static_cast<float>(y_offset));
-    });
+    // TODO
+    //    window.set_key_callback([&keys](int key, int action) {
+    //        if (key >= 0 && key < 1024) {
+    //            if (action == GLFW_PRESS) {
+    //                keys[key] = true;
+    //            } else if (action == GLFW_RELEASE) {
+    //                keys[key] = false;
+    //            }
+    //        }
+    //    });
+    //
+    //    GLfloat lastX = engine.window().width() / 2;
+    //    GLfloat lastY = engine.window().height() / 2;
+    //
+    //    bool firstMouse = true;
+    //    window.set_mouse_callback([&](double x_pos, double y_pos) {
+    //        if (firstMouse) {
+    //            lastX = x_pos;
+    //            lastY = y_pos;
+    //            firstMouse = false;
+    //        }
+    //        float x_offset = x_pos - lastX;
+    //        float y_offset = lastY - y_pos;
+    //        lastX = x_pos;
+    //        lastY = y_pos;
+    //
+    //        camera.process_mouse_move(x_offset, y_offset);
+    //    });
+    //
+    //    window.set_scroll_callback([&camera](double /*x_offset*/, double y_offset) {
+    //        camera.process_mouse_scroll(static_cast<float>(y_offset));
+    //    });
 
     GLfloat delta_time = 0.0f;
     GLfloat last_frame = 0.0f;
 
-    window.launch([&]() {
+    engine.start([&]() {
         auto currentFrame = static_cast<float>(glfwGetTime());
         delta_time = currentFrame - last_frame;
         last_frame = currentFrame;
@@ -204,7 +205,7 @@ int main()
         glUniform1f(glGetUniformLocation(shaderProgram.program(), "mixValue"), mix_val);
 
         glm::mat4 view = camera.view_matrix();
-        glm::mat4 projection = glm::perspective(glm::radians(camera.zoom()), static_cast<float>(window.width()) / static_cast<float>(window.height()), 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(camera.zoom()), static_cast<float>(engine.window().width()) / static_cast<float>(engine.window().height()), 0.1f, 100.0f);
 
         GLint modelLoc = glGetUniformLocation(shaderProgram.program(), "model");
         GLint viewLoc = glGetUniformLocation(shaderProgram.program(), "view");

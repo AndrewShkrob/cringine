@@ -6,7 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <cringine/graphics/shader_program_builder.hpp>
-#include <cringine/window/window.hpp>
+#include <cringine/core/engine.hpp>
 
 #include <cmath>
 #include <iostream>
@@ -101,7 +101,7 @@ GLuint generate_cube_vao()
 
 int main()
 {
-    cringine::window window(800, 600, "LearnOpenGL");
+    cringine::engine engine({800, 600, "LearnOpenGL"});
 
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
@@ -110,7 +110,7 @@ int main()
     }
 
     glEnable(GL_DEPTH_TEST);
-    glViewport(0, 0, window.width(), window.height());
+    glViewport(0, 0, engine.window().width(), engine.window().height());
 
     cringine::shader_program shaderProgram =
         cringine::shader_program_builder().add_vertex_shader("shaders/shader.vertex").add_fragment_shader("shaders/shader.fragment").build();
@@ -131,41 +131,41 @@ int main()
         glm::vec3(1.5f, 0.2f, -1.5f),
         glm::vec3(-1.3f, 1.0f, -1.5f)};
 
-    window.launch([&window, &shaderProgram, cubeVAO, &cubePositions, texture1, texture2]() {
-      glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    engine.start([&engine, &shaderProgram, cubeVAO, &cubePositions, texture1, texture2]() {
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      glActiveTexture(GL_TEXTURE0);
-      glBindTexture(GL_TEXTURE_2D, texture1);
-      glUniform1i(glGetUniformLocation(shaderProgram.program(), "ourTexture1"), 0);
-      glActiveTexture(GL_TEXTURE1);
-      glBindTexture(GL_TEXTURE_2D, texture2);
-      glUniform1i(glGetUniformLocation(shaderProgram.program(), "ourTexture2"), 1);
-      GLfloat mix_val = static_cast<GLfloat>(sin(glfwGetTime())) * 0.5f + 0.5f;
-      glUniform1f(glGetUniformLocation(shaderProgram.program(), "mixValue"), mix_val);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture1);
+        glUniform1i(glGetUniformLocation(shaderProgram.program(), "ourTexture1"), 0);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, texture2);
+        glUniform1i(glGetUniformLocation(shaderProgram.program(), "ourTexture2"), 1);
+        GLfloat mix_val = static_cast<GLfloat>(sin(glfwGetTime())) * 0.5f + 0.5f;
+        glUniform1f(glGetUniformLocation(shaderProgram.program(), "mixValue"), mix_val);
 
-      glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3.0f));
-      glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(window.width()) / static_cast<float>(window.height()), 0.1f, 100.0f);
+        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3.0f));
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(engine.window().width()) / static_cast<float>(engine.window().height()), 0.1f, 100.0f);
 
-      GLint modelLoc = glGetUniformLocation(shaderProgram.program(), "model");
-      GLint viewLoc = glGetUniformLocation(shaderProgram.program(), "view");
-      glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-      GLint projLoc = glGetUniformLocation(shaderProgram.program(), "projection");
-      glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+        GLint modelLoc = glGetUniformLocation(shaderProgram.program(), "model");
+        GLint viewLoc = glGetUniformLocation(shaderProgram.program(), "view");
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+        GLint projLoc = glGetUniformLocation(shaderProgram.program(), "projection");
+        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-      shaderProgram.use();
+        shaderProgram.use();
 
-      glBindVertexArray(cubeVAO);
-      for (GLuint i = 0; i < 10; i++) {
-          glm::mat4 model = glm::translate(glm::mat4(1.0f), cubePositions[i]);
-          GLfloat angle = glm::radians((GLfloat) glfwGetTime() * 5.0f * (i + 1));
-          const float coef = static_cast<float>(i + 1) / 10.f;
-          model = glm::rotate(model, angle, glm::vec3(1.0f * coef, 1.0f * coef, 1.0f * coef));
-          glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        glBindVertexArray(cubeVAO);
+        for (GLuint i = 0; i < 10; i++) {
+            glm::mat4 model = glm::translate(glm::mat4(1.0f), cubePositions[i]);
+            GLfloat angle = glm::radians((GLfloat) glfwGetTime() * 5.0f * (i + 1));
+            const float coef = static_cast<float>(i + 1) / 10.f;
+            model = glm::rotate(model, angle, glm::vec3(1.0f * coef, 1.0f * coef, 1.0f * coef));
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-          glDrawArrays(GL_TRIANGLES, 0, 36);
-      }
-      glBindVertexArray(0);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+        glBindVertexArray(0);
     });
 
     return 0;
