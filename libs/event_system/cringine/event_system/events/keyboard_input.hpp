@@ -1,14 +1,10 @@
 #pragma once
 
-#include <memory>
+#include <cringine/event_system/input/keys.hpp>
+
+#include <functional>
 
 namespace cringine::event_system::events
 {
-    class keyboard_input_event
-    {
-    public:
-        virtual void keyboard_input(int key, int ) = 0;
-    };
-
-    using window_close_event_ptr = window_close_event*;
+    using keyboard_input_event = std::function<void(input::key_t, int action)>;
 } // namespace cringine::event_system::events
