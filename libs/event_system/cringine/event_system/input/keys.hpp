@@ -125,7 +125,6 @@ namespace cringine::event_system::input::keys
     [[maybe_unused]] const extern key_t KEY_RIGHT_ALT;
     [[maybe_unused]] const extern key_t KEY_RIGHT_SUPER;
     [[maybe_unused]] const extern key_t KEY_MENU;
-    [[maybe_unused]] const extern key_t KEY_AMOUNT;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_1;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_2;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_3;
@@ -134,7 +133,6 @@ namespace cringine::event_system::input::keys
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_6;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_7;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_8;
-    [[maybe_unused]] const extern key_t MOUSE_BUTTON_AMOUNT;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_LEFT;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_RIGHT;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_MIDDLE;
