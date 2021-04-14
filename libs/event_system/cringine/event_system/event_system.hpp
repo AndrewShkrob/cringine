@@ -2,6 +2,8 @@
 
 #include <cringine/event_system/events/all.hpp>
 
+#include <memory>
+
 namespace cringine::event_system
 {
     class event_system
