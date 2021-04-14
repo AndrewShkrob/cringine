@@ -1,11 +1,26 @@
-#include <cringine/window/window.hpp>
+#include <cringine/core/engine.hpp>
 
 #include <iostream>
 
-class a : public cringine::event_system::events::window_close_event
+class a
 {
 public:
-    void window_close() override
+    void launch()
+    {
+        cringine::engine engine({800, 600, "Hello"});
+        engine.event_system()->register_window_close_callback([this]() { window_close(); });
+        engine.start([&engine]() {
+            auto r = (sin(engine.time()) + 1) / 2;
+            auto g = (cos(engine.time()) + 1) / 2;
+            auto b = r;
+            glClearColor(1.0f * r, 1.0f * g, 1.0f * b, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            std::cout << "FPS: " << engine.fps() << " Delta time: " << engine.delta_time() << std::endl;
+        });
+    }
+
+    void window_close()
     {
         std::cout << "CLOSE" << std::endl;
     }
@@ -13,9 +28,6 @@ public:
 
 int main()
 {
-    cringine::window window(640, 480, "Hello");
-    window.event_system()->register_window_close_callback(new a());
-    window.launch([&window]() {
-        std::cout << window.width() << "x" << window.height() << std::endl;
-    });
+    a().launch();
+    return 0;
 }
