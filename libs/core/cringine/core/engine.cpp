@@ -3,9 +3,14 @@
 using namespace cringine;
 using namespace cringine::types;
 
+// TEMPORARY
+#include <cringine/event_system/input/glfw/glfw_input_manager.hpp>
+// !TEMPORARY
+
 engine::engine(const configuration::window_configuration& window_config)
     : m_window(window_config)
     , m_event_system(m_window.event_system())
+    , m_input_manager(std::make_shared<event_system::input::glfw_input_manager>())
 {
     init_event_system();
 }
@@ -49,12 +54,14 @@ void engine::window_close()
 void engine::init_event_system()
 {
     m_event_system->register_window_close_callback(this);
+    m_input_manager->bind_to_event_system(m_event_system);
 }
 
 void engine::loop(const render_func& func)
 {
     m_running = true;
     while (!m_stop) {
+        m_input_manager->update_states();
         m_window.update();
         if (m_stop) {
             break;

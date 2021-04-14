@@ -40,7 +40,7 @@ namespace cringine
 
         cringine::window m_window;
         event_system::event_system_sptr m_event_system;
-        event_system::input::input_manager m_input_manager;
+        event_system::input::input_manager_sptr m_input_manager;
         utils::fps_counter m_fps_counter;
     };
 } // namespace cringine
