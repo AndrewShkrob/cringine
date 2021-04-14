@@ -22,47 +22,12 @@ namespace
     {
         glfwTerminate();
     }
-
-    //    struct callbacks
-    //    {
-    //        static inline void window_size_callback_func(GLFWwindow* window, int width, int height)
-    //        {
-    //            _window_size_callback(width, height);
-    //            window_size_callback(width, height);
-    //        }
-    //
-    //        static inline void key_callback_func(GLFWwindow* window, int key, int /*unused*/, int action, int /*unused*/)
-    //        {
-    //            if (key == GLFW_KEY_ESCAPE) {
-    //                glfwSetWindowShouldClose(window, GLFW_TRUE);
-    //            }
-    //            key_callback(key, action);
-    //        }
-    //
-    //        static inline void mouse_callback_func(GLFWwindow* /*unused*/, double x_pos, double y_pos)
-    //        {
-    //            mouse_callback(x_pos, y_pos);
-    //        }
-    //
-    //        static inline void scroll_callback_func(GLFWwindow* /*unused*/, double x_offset, double y_offset)
-    //        {
-    //            scroll_callback(x_offset, y_offset);
-    //        }
-    //
-    //        static window::window_sise_callback_func window_size_callback;
-    //        static window::window_sise_callback_func _window_size_callback;
-    //        static window::key_callback_func key_callback;
-    //        static window::mouse_callback_func mouse_callback;
-    //        static window::scroll_callback_func scroll_callback;
-    //    };
-    //
-    //    window::window_sise_callback_func callbacks::window_size_callback{};
-    //    window::window_sise_callback_func callbacks::_window_size_callback{};
-    //    window::key_callback_func callbacks::key_callback{};
-    //    window::mouse_callback_func callbacks::mouse_callback{};
-    //    window::scroll_callback_func callbacks::scroll_callback{};
-
 } // namespace
+
+window::window(const types::configuration::window_configuration& window_config)
+    : window(window_config.width, window_config.height, window_config.name)
+{
+}
 
 window::window(int width, int height, std::string title)
     : m_width(width)
@@ -79,7 +44,7 @@ window::window(int width, int height, std::string title)
     m_event_system = std::make_shared<event_system::glfw_event_system>(m_window);
     //    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwMakeContextCurrent(m_window);
-    m_event_system->register_window_resize_callback(this);
+    m_event_system->register_window_resize_callback([this](int width, int height) { window_resize(width, height); });
 }
 
 window::~window()
@@ -102,16 +67,17 @@ int window::height() const
     return m_height;
 }
 
-void window::launch(const render_func& render)
+void window::update() const
 {
-    while (glfwWindowShouldClose(m_window) == 0) {
-        glfwPollEvents();
-
-        render();
-
-        glfwSwapBuffers(m_window);
-    }
+    glfwPollEvents();
+    (void) m_window;
 }
+
+void window::render() const
+{
+    glfwSwapBuffers(m_window);
+}
+
 void window::window_resize(int width, int height)
 {
     m_width = width;

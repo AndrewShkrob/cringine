@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cringine/event_system/event_system.hpp>
+#include <cringine/types/configuration/window_configuration.hpp>
 
 #include <string>
 #include <functional>
@@ -9,11 +10,10 @@
 
 namespace cringine
 {
-    class window : event_system::events::window_resize_event
+    class window
     {
     public:
-        using render_func = std::function<void()>;
-
+        explicit window(const types::configuration::window_configuration& window_config);
         window(int width, int height, std::string title);
         ~window();
 
@@ -28,12 +28,12 @@ namespace cringine
         [[nodiscard]] int width() const;
         [[nodiscard]] int height() const;
 
-        void launch(const render_func& render);
+        void update() const;
+        void render() const;
 
     private:
-        void window_resize(int new_width, int new_height) override;
+        void window_resize(int new_width, int new_height);
 
-    private:
         int m_width;
         int m_height;
         std::string m_title;
