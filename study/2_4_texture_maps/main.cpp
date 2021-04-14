@@ -8,7 +8,7 @@
 
 #include <cringine/graphics/shader_program_builder.hpp>
 #include <cringine/types/camera.hpp>
-#include <cringine/window/window.hpp>
+#include <cringine/core/engine.hpp>
 
 #include <iostream>
 #include <array>
@@ -20,10 +20,19 @@ void move_camera(cringine::types::camera& camera, float delta_time, const std::a
 
 GLuint load_texture(const std::string& img_path);
 
+class window_resize_event : public cringine::event_system::events::window_resize_event
+{
+    void window_resize(int width, int height) override
+    {
+        glViewport(0, 0, width, height);
+    }
+};
+
 int main()
 {
-    cringine::window window(800, 600, "LearnOpenGL");
+    cringine::engine engine({800, 600, "LearnOpenGL"});
     cringine::types::camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+    auto resize_event = std::make_shared<window_resize_event>();
 
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
@@ -32,9 +41,6 @@ int main()
     }
 
     glEnable(GL_DEPTH_TEST);
-    window.set_window_size_callback([](int width, int height) {
-        glViewport(0, 0, width, height);
-    });
 
     cringine::shader_program lightingShader =
         cringine::shader_program_builder()
@@ -51,39 +57,42 @@ int main()
     GLuint cubeVAO = generate_cube_vao();
     GLuint lampVAO = generate_cube_vao();
 
-    constexpr size_t keys_size = 1024;
-    std::array<bool, keys_size> keys{false};
-    window.set_key_callback([&keys](int key, int action) {
-        if (key >= 0 && key < keys_size) {
-            if (action == GLFW_PRESS) {
-                keys.at(key) = true;
-            } else if (action == GLFW_RELEASE) {
-                keys.at(key) = false;
-            }
-        }
-    });
+    engine.event_system()->register_window_resize_callback(resize_event.get());
 
-    GLfloat lastX = window.width() / 2;
-    GLfloat lastY = window.height() / 2;
-
-    bool firstMouse = true;
-    window.set_mouse_callback([&](double x_pos, double y_pos) {
-        if (firstMouse) {
-            lastX = x_pos;
-            lastY = y_pos;
-            firstMouse = false;
-        }
-        float x_offset = x_pos - lastX;
-        float y_offset = lastY - y_pos;
-        lastX = x_pos;
-        lastY = y_pos;
-
-        camera.process_mouse_move(x_offset, y_offset);
-    });
-
-    window.set_scroll_callback([&camera](double /*x_offset*/, double y_offset) {
-        camera.process_mouse_scroll(static_cast<float>(y_offset));
-    });
+    // TODO
+    //    constexpr size_t keys_size = 1024;
+    //    std::array<bool, keys_size> keys{false};
+    //    window.set_key_callback([&keys](int key, int action) {
+    //        if (key >= 0 && key < keys_size) {
+    //            if (action == GLFW_PRESS) {
+    //                keys.at(key) = true;
+    //            } else if (action == GLFW_RELEASE) {
+    //                keys.at(key) = false;
+    //            }
+    //        }
+    //    });
+    //
+    //    GLfloat lastX = window.width() / 2;
+    //    GLfloat lastY = window.height() / 2;
+    //
+    //    bool firstMouse = true;
+    //    window.set_mouse_callback([&](double x_pos, double y_pos) {
+    //        if (firstMouse) {
+    //            lastX = x_pos;
+    //            lastY = y_pos;
+    //            firstMouse = false;
+    //        }
+    //        float x_offset = x_pos - lastX;
+    //        float y_offset = lastY - y_pos;
+    //        lastX = x_pos;
+    //        lastY = y_pos;
+    //
+    //        camera.process_mouse_move(x_offset, y_offset);
+    //    });
+    //
+    //    window.set_scroll_callback([&camera](double /*x_offset*/, double y_offset) {
+    //        camera.process_mouse_scroll(static_cast<float>(y_offset));
+    //    });
 
     GLfloat delta_time = 0.0f;
     GLfloat last_frame = 0.0f;
@@ -93,11 +102,11 @@ int main()
     GLuint diffuseMap = load_texture(std::string(RESOURCES) + "textures/container2.png");
     GLuint specularMap = load_texture(std::string(RESOURCES) + "textures/container2_specular.png");
 
-    window.launch([&]() {
+    engine.start([&]() {
         auto currentFrame = static_cast<float>(glfwGetTime());
         delta_time = currentFrame - last_frame;
         last_frame = currentFrame;
-        move_camera(camera, delta_time, keys);
+        //        move_camera(camera, delta_time, keys);
 
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -129,7 +138,7 @@ int main()
 
         glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 view = camera.view_matrix();
-        glm::mat4 projection = glm::perspective(glm::radians(camera.zoom()), static_cast<float>(window.width()) / static_cast<float>(window.height()), 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(camera.zoom()), static_cast<float>(engine.window().width()) / static_cast<float>(engine.window().height()), 0.1f, 100.0f);
 
         lightingShader.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
         lightingShader.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));

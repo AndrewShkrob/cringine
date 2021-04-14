@@ -1,2 +1,2 @@
 add_executable(study_create_window main.cpp)
-target_link_libraries(study_create_window cringine_window libglew_static)
+target_link_libraries(study_create_window cringine_core libglew_static)

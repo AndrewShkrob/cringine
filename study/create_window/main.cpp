@@ -1,11 +1,12 @@
 #include <GL/glew.h>
 
-#include <cringine/window/window.hpp>
+#include <cringine/core/engine.hpp>
 
 #include <iostream>
 
-int main() {
-    cringine::window window(800, 600, "LearnOpenGL");
+int main()
+{
+    cringine::engine engine({800, 600, "LearnOpenGL"});
 
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
@@ -13,9 +14,9 @@ int main() {
         return -1;
     }
 
-    glViewport(0, 0, window.width(), window.height());
+    glViewport(0, 0, engine.window().width(), engine.window().height());
 
-    window.launch([]() {
+    engine.start([]() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
     });

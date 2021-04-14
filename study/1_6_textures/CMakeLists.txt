@@ -1,7 +1,6 @@
 add_executable(study_1_6_textures main.cpp)
 target_link_libraries(study_1_6_textures
-    cringine_window
-    cringine_graphics
+    cringine_core
     libglew_static
     soil2
 )

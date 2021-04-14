@@ -26,6 +26,8 @@ namespace cringine
 
         [[nodiscard]] double time() const;
 
+        [[nodiscard]] const cringine::window& window() const;
+
     private:
         void window_close() override;
 
@@ -36,7 +38,7 @@ namespace cringine
         bool m_running = false;
         bool m_stop = true;
 
-        window m_window;
+        cringine::window m_window;
         event_system::event_system_sptr m_event_system;
         event_system::input::input_manager m_input_manager;
         utils::fps_counter m_fps_counter;

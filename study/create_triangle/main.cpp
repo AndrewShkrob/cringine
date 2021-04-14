@@ -1,10 +1,10 @@
 #include <GL/glew.h>
 
-#include <cringine/window/window.hpp>
+#include <cringine/core/engine.hpp>
 
 #include <iostream>
 
-const char *vertex_shader_source = R"(
+const char* vertex_shader_source = R"(
 #version 330 core
 
 layout (location = 0) in vec3 position;
@@ -15,7 +15,7 @@ void main()
 }
 )";
 
-const char *fragment_shader_source = R"(
+const char* fragment_shader_source = R"(
 #version 330 core
 
 out vec4 color;
@@ -26,7 +26,8 @@ void main()
 }
 )";
 
-GLuint compile_shader(const char *shader_source, GLuint shader_type) {
+GLuint compile_shader(const char* shader_source, GLuint shader_type)
+{
     GLuint shader;
     shader = glCreateShader(shader_type);
     glShaderSource(shader, 1, &shader_source, nullptr);
@@ -46,7 +47,8 @@ GLuint compile_shader(const char *shader_source, GLuint shader_type) {
     return shader;
 }
 
-GLuint create_shader_program(const char *vertex_shader, const char *fragment_shader) {
+GLuint create_shader_program(const char* vertex_shader, const char* fragment_shader)
+{
     GLuint vertexShader = compile_shader(vertex_shader, GL_VERTEX_SHADER);
     GLuint fragmentShader = compile_shader(fragment_shader, GL_FRAGMENT_SHADER);
     GLuint shaderProgram = glCreateProgram();
@@ -69,11 +71,10 @@ GLuint create_shader_program(const char *vertex_shader, const char *fragment_sha
     return shaderProgram;
 }
 
-GLuint generate_triangle_vao() {
+GLuint generate_triangle_vao()
+{
     GLfloat vertices[] = {
-            -1.0f, -1.0f, 0.0f,
-            0.0f, -1.0f, 0.0f,
-            -0.5f, 0.0f, 0.0f};
+        -1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, -0.5f, 0.0f, 0.0f};
 
     GLuint VBO;
     GLuint VAO;
@@ -84,22 +85,19 @@ GLuint generate_triangle_vao() {
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid *) nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*) nullptr);
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
 
     return VAO;
 }
 
-GLuint generate_rect_vao() {
+GLuint generate_rect_vao()
+{
     GLfloat vertices[] = {
-            1.0f, 1.0f, 0.0f,
-            1.0f, 0.0f, 0.0f,
-            0.0f, 0.0f, 0.0f,
-            0.0f, 1.0f, 0.0f};
+        1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f};
     GLuint indices[] = {
-            0, 1, 3,
-            1, 2, 3};
+        0, 1, 3, 1, 2, 3};
 
     GLuint VBO;
     GLuint VAO;
@@ -114,15 +112,16 @@ GLuint generate_rect_vao() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid *) nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*) nullptr);
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
 
     return VAO;
 }
 
-int main() {
-    cringine::window window(800, 600, "LearnOpenGL");
+int main()
+{
+    cringine::engine engine({800, 600, "LearnOpenGL"});
 
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
@@ -130,14 +129,14 @@ int main() {
         return -1;
     }
 
-    glViewport(0, 0, window.width(), window.height());
+    glViewport(0, 0, engine.window().width(), engine.window().height());
 
     GLuint shaderProgram = create_shader_program(vertex_shader_source, fragment_shader_source);
 
     GLuint triangleVAO = generate_triangle_vao();
     GLuint rectVAO = generate_rect_vao();
 
-    window.launch([shaderProgram, triangleVAO, rectVAO]() {
+    engine.start([shaderProgram, triangleVAO, rectVAO]() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 

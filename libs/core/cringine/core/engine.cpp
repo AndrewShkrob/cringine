@@ -36,6 +36,11 @@ double engine::time() const
     return m_fps_counter.time();
 }
 
+const window & engine::window() const
+{
+    return m_window;
+}
+
 void engine::window_close()
 {
     m_stop = true;
