@@ -23,10 +23,10 @@ void glfw_input_manager::scroll_input(double dx, double dy)
 
 void glfw_input_manager::keyboard_input(keys::key_t key, int action)
 {
-    m_key_current_states[key] = (action == GLFW_PRESS || action == GLFW_REPEAT);
+    m_key_current_states.at(key) = (action == GLFW_PRESS || action == GLFW_REPEAT);
 }
 
 void glfw_input_manager::mouse_button_input(keys::key_t button, int action)
 {
-    m_button_current_states[button] = action == GLFW_PRESS;
+    m_button_current_states.at(button) = action == GLFW_PRESS;
 }

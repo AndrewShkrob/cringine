@@ -15,25 +15,31 @@ namespace cringine::event_system::input
         input_manager() = default;
         virtual ~input_manager() = default;
 
+        input_manager(const input_manager&) = delete;
+        input_manager(input_manager&&) = delete;
+
+        input_manager& operator=(const input_manager&) = delete;
+        input_manager& operator=(input_manager&&) = delete;
+
         void bind_to_event_system(event_system_sptr event_system);
 
         void update_states();
 
-        bool is_cursor_focused() const;
-        std::pair<double, double> cursor_position() const;
-        double cursor_position_x() const;
-        double cursor_position_y() const;
-        std::pair<double, double> scroll_delta() const;
-        double scroll_delta_x() const;
-        double scroll_delta_y() const;
-        bool is_key_pressed(keys::key_t key) const;
-        bool is_key_released(keys::key_t key) const;
-        bool is_key_down(keys::key_t key) const;
-        bool is_key_up(keys::key_t key) const;
-        bool is_mouse_button_pressed(keys::key_t key) const;
-        bool is_mouse_button_released(keys::key_t key) const;
-        bool is_mouse_button_down(keys::key_t key) const;
-        bool is_mouse_button_up(keys::key_t key) const;
+        [[nodiscard, maybe_unused]] bool is_cursor_focused() const;
+        [[nodiscard, maybe_unused]] std::pair<double, double> cursor_position() const;
+        [[nodiscard, maybe_unused]] double cursor_position_x() const;
+        [[nodiscard, maybe_unused]] double cursor_position_y() const;
+        [[nodiscard, maybe_unused]] std::pair<double, double> scroll_delta() const;
+        [[nodiscard, maybe_unused]] double scroll_delta_x() const;
+        [[nodiscard, maybe_unused]] double scroll_delta_y() const;
+        [[nodiscard, maybe_unused]] bool is_key_pressed(keys::key_t key) const;
+        [[nodiscard, maybe_unused]] bool is_key_released(keys::key_t key) const;
+        [[nodiscard, maybe_unused]] bool is_key_down(keys::key_t key) const;
+        [[nodiscard, maybe_unused]] bool is_key_up(keys::key_t key) const;
+        [[nodiscard, maybe_unused]] bool is_mouse_button_pressed(keys::key_t button) const;
+        [[nodiscard, maybe_unused]] bool is_mouse_button_released(keys::key_t button) const;
+        [[nodiscard, maybe_unused]] bool is_mouse_button_down(keys::key_t button) const;
+        [[nodiscard, maybe_unused]] bool is_mouse_button_up(keys::key_t button) const;
 
     private:
         void update_key_states();
