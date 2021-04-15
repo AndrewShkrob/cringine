@@ -2,9 +2,13 @@
 
 #include <cringine/event_system/input/keys.hpp>
 
-#include <functional>
-
 namespace cringine::event_system::events
 {
-    using keyboard_input_event = std::function<void(input::key_t, int action)>;
+    class keyboard_input_event
+    {
+    public:
+        virtual void keyboard_input(input::keys::key_t key, bool new_state) = 0;
+    };
+
+    using keyboard_input_event_ptr = keyboard_input_event*;
 } // namespace cringine::event_system::events
