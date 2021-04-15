@@ -111,3 +111,31 @@ void input_manager::update_scroll_delta()
 {
     m_scroll_delta_x = m_scroll_delta_y = 0;
 }
+
+void input_manager::cursor_focus(bool new_state)
+{
+    m_cursor_focus = new_state;
+}
+
+void input_manager::cursor_position(double x, double y)
+{
+    m_cursor_x = x;
+    m_cursor_y = y;
+}
+
+void input_manager::scroll_input(double dx, double dy)
+{
+    m_scroll_delta_x = dx;
+    m_scroll_delta_y = dy;
+}
+
+void input_manager::keyboard_input(keys::key_t key, bool new_state)
+{
+    m_key_current_states.at(key) = new_state;
+}
+
+void input_manager::mouse_button_input(keys::key_t button, bool new_state)
+{
+    m_button_current_states.at(button) = new_state;
+}
+

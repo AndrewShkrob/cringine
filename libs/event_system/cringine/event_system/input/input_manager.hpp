@@ -7,9 +7,9 @@
 
 namespace cringine::event_system::input
 {
-    class input_manager : virtual public events::cursor_focus_event, virtual public events::cursor_position_event,
-                          virtual public events::keyboard_input_event, virtual public events::mouse_button_input_event,
-                          virtual public events::scroll_input_event
+    class input_manager : protected events::cursor_focus_event, protected events::cursor_position_event,
+                          protected events::keyboard_input_event, protected events::mouse_button_input_event,
+                          protected events::scroll_input_event
     {
     public:
         input_manager() = default;
@@ -47,6 +47,13 @@ namespace cringine::event_system::input
         void update_scroll_delta();
 
     protected:
+        void cursor_focus(bool new_state) override;
+        void cursor_position(double x, double y) override;
+        void scroll_input(double dx, double dy) override;
+        void keyboard_input(keys::key_t key, bool new_state) override;
+        void mouse_button_input(keys::key_t button, bool new_state) override;
+
+    private:
         bool m_cursor_focus = true;
         double m_cursor_x = 0, m_cursor_y = 0;
         double m_scroll_delta_x = 0, m_scroll_delta_y = 0;
