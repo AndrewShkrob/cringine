@@ -15,8 +15,6 @@ set(CRINGINE_EVENT_SYSTEM_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/cringine/event_system/events/window_refresh.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/event_system/events/window_resize.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/event_system/input/glfw/glfw_keys.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/cringine/event_system/input/glfw/glfw_input_manager.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/cringine/event_system/input/glfw/glfw_input_manager.cpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/event_system/input/input_manager.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/event_system/input/input_manager.cpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/event_system/input/keys.hpp
