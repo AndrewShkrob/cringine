@@ -46,8 +46,10 @@ namespace cringine::event_system::input
 
     private:
         bool m_cursor_focus = true;
-        double m_cursor_x = 0, m_cursor_y = 0;
-        double m_scroll_delta_x = 0, m_scroll_delta_y = 0;
+        double m_cursor_x = 0;
+        double m_cursor_y = 0;
+        double m_scroll_delta_x = 0;
+        double m_scroll_delta_y = 0;
 
         static constexpr auto s_MAX_KEY_AMOUNT = 512u;
         std::array<bool, s_MAX_KEY_AMOUNT> m_key_current_states{false}, m_key_previous_states{false};
