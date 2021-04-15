@@ -51,11 +51,9 @@ namespace cringine::event_system::input
         double m_scroll_delta_x = 0;
         double m_scroll_delta_y = 0;
 
-        static constexpr auto s_MAX_KEY_AMOUNT = 512u;
-        std::array<bool, s_MAX_KEY_AMOUNT> m_key_current_states{false}, m_key_previous_states{false};
+        std::array<bool, keys::KEY_AMOUNT> m_key_current_states{false}, m_key_previous_states{false};
 
-        static constexpr auto s_MAX_BUTTON_AMOUNT = 8u;
-        std::array<bool, s_MAX_BUTTON_AMOUNT> m_button_current_states{false}, m_button_previous_states{false};
+        std::array<bool, keys::BUTTON_AMOUNT> m_button_current_states{false}, m_button_previous_states{false};
     };
 
     using input_manager_sptr = std::shared_ptr<input_manager>;

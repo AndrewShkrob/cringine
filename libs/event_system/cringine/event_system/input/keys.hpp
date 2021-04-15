@@ -4,6 +4,9 @@ namespace cringine::event_system::input::keys
 {
     using key_t = unsigned short;
 
+    [[maybe_unused]] constexpr key_t KEY_AMOUNT = 512;
+    [[maybe_unused]] constexpr key_t BUTTON_AMOUNT = 8;
+
     [[maybe_unused]] const extern key_t KEY_UNKNOWN;
     [[maybe_unused]] const extern key_t KEY_SPACE;
     [[maybe_unused]] const extern key_t KEY_APOSTROPHE;

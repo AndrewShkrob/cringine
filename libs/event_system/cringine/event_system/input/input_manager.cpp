@@ -95,14 +95,14 @@ void input_manager::update_states()
 
 void input_manager::update_key_states()
 {
-    for (auto i = 0u; i < s_MAX_KEY_AMOUNT; ++i) {
+    for (auto i = 0u; i < keys::KEY_AMOUNT; ++i) {
       m_key_previous_states.at(i) = m_key_current_states.at(i);
     }
 }
 
 void input_manager::update_button_states()
 {
-    for (auto i = 0u; i < s_MAX_BUTTON_AMOUNT; ++i) {
+    for (auto i = 0u; i < keys::BUTTON_AMOUNT; ++i) {
       m_button_previous_states.at(i) = m_button_current_states.at(i);
     }
 }
