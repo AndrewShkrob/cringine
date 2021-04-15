@@ -96,14 +96,14 @@ void input_manager::update_states()
 void input_manager::update_key_states()
 {
     for (auto i = 0u; i < keys::KEY_AMOUNT; ++i) {
-      m_key_previous_states.at(i) = m_key_current_states.at(i);
+        m_key_previous_states.at(i) = m_key_current_states.at(i);
     }
 }
 
 void input_manager::update_button_states()
 {
     for (auto i = 0u; i < keys::BUTTON_AMOUNT; ++i) {
-      m_button_previous_states.at(i) = m_button_current_states.at(i);
+        m_button_previous_states.at(i) = m_button_current_states.at(i);
     }
 }
 
@@ -138,4 +138,3 @@ void input_manager::mouse_button_input(keys::key_t button, bool new_state)
 {
     m_button_current_states.at(button) = new_state;
 }
-
