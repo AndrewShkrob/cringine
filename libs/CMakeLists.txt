@@ -1,6 +1,7 @@
 add_subdirectory(core)
 add_subdirectory(event_system)
-add_subdirectory(graphics)
+add_subdirectory(renderer)
+add_subdirectory(shaders)
 add_subdirectory(types)
 add_subdirectory(utils)
 add_subdirectory(window)
