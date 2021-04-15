@@ -135,6 +135,10 @@ void glfw_event_system::init()
     });
     glfwSetDropCallback(m_window, [](GLFWwindow* window, int count, const char** paths) {
       auto& self = *static_cast<glfw_event_system*>(glfwGetWindowUserPointer(window));
-      self.m_path_drop_observer.notify(&events::path_drop_event::path_drop, count, paths);
+      auto file_paths = std::vector<std::string>{static_cast<size_t>(count)};
+      for (auto i = 0; i < count; ++i) {
+          file_paths[i] = std::string{paths[i]};
+      }
+      self.m_path_drop_observer.notify(&events::path_drop_event::path_drop, file_paths);
     });
 }
