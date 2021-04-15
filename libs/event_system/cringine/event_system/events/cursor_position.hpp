@@ -1,7 +1,5 @@
 #pragma once
 
-#include <functional>
-
 namespace cringine::event_system::events
 {
     class cursor_position_event
