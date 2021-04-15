@@ -28,8 +28,6 @@ namespace cringine
 
         [[nodiscard]] const cringine::window& window() const;
 
-        [[nodiscard]] const event_system::input::input_manager& input_manager() const;
-
     private:
         void window_close() override;
 

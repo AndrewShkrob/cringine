@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 namespace cringine::event_system::events
 {
     class window_resize_event

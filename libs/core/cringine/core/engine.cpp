@@ -41,11 +41,6 @@ const window & engine::window() const
     return m_window;
 }
 
-const event_system::input::input_manager& engine::input_manager() const
-{
-    return m_input_manager;
-}
-
 void engine::window_close()
 {
     m_stop = true;
@@ -54,14 +49,12 @@ void engine::window_close()
 void engine::init_event_system()
 {
     m_event_system->register_window_close_callback(this);
-    m_input_manager.bind_to_event_system(m_event_system);
 }
 
 void engine::loop(const render_func& func)
 {
     m_running = true;
     while (!m_stop) {
-        m_input_manager.update_states();
         m_window.update();
         if (m_stop) {
             break;

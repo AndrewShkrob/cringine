@@ -17,9 +17,7 @@ public:
             glClearColor(1.0f * r, 1.0f * g, 1.0f * b, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            if (engine.input_manager().is_key_pressed(cringine::event_system::input::keys::KEY_A)) {
-                std::cout << "FPS: " << engine.fps() << " Delta time: " << engine.delta_time() << std::endl;
-            }
+            std::cout << "FPS: " << engine.fps() << " Delta time: " << engine.delta_time() << std::endl;
         });
     }
 

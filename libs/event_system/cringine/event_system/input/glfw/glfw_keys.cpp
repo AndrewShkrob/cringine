@@ -125,6 +125,7 @@ namespace cringine::event_system::input::keys
     [[maybe_unused]] const extern key_t KEY_RIGHT_ALT = GLFW_KEY_RIGHT_ALT;
     [[maybe_unused]] const extern key_t KEY_RIGHT_SUPER = GLFW_KEY_RIGHT_SUPER;
     [[maybe_unused]] const extern key_t KEY_MENU = GLFW_KEY_MENU;
+    [[maybe_unused]] const extern key_t KEY_AMOUNT = GLFW_KEY_LAST + 1;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_1 = GLFW_MOUSE_BUTTON_1;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_2 = GLFW_MOUSE_BUTTON_2;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_3 = GLFW_MOUSE_BUTTON_3;
@@ -133,6 +134,7 @@ namespace cringine::event_system::input::keys
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_6 = GLFW_MOUSE_BUTTON_6;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_7 = GLFW_MOUSE_BUTTON_7;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_8 = GLFW_MOUSE_BUTTON_8;
+    [[maybe_unused]] const extern key_t MOUSE_BUTTON_AMOUNT = GLFW_MOUSE_BUTTON_LAST + 1;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_LEFT = GLFW_MOUSE_BUTTON_LEFT;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_RIGHT = GLFW_MOUSE_BUTTON_RIGHT;
     [[maybe_unused]] const extern key_t MOUSE_BUTTON_MIDDLE = GLFW_MOUSE_BUTTON_MIDDLE;
