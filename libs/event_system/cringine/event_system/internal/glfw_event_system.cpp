@@ -111,7 +111,7 @@ void glfw_event_system::init()
     });
     glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, [[maybe_unused]] int scancode, int action, [[maybe_unused]] int mods) {
       auto& self = *static_cast<glfw_event_system*>(glfwGetWindowUserPointer(window));
-      self.m_keyboard_input_observer.notify(&events::keyboard_input_event::keyboard_input, static_cast<input::keys::key_t>(key), action);
+      self.m_keyboard_input_observer.notify(&events::keyboard_input_event::keyboard_input, static_cast<input::keys::key_t>(key), action == GLFW_PRESS || action == GLFW_REPEAT);
     });
     glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int character) {
       auto& self = *static_cast<glfw_event_system*>(glfwGetWindowUserPointer(window));
@@ -127,7 +127,7 @@ void glfw_event_system::init()
     });
     glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, [[maybe_unused]] int mods) {
       auto& self = *static_cast<glfw_event_system*>(glfwGetWindowUserPointer(window));
-      self.m_mouse_button_input_observer.notify(&events::mouse_button_input_event::mouse_button_input, static_cast<input::keys::key_t>(button), action);
+      self.m_mouse_button_input_observer.notify(&events::mouse_button_input_event::mouse_button_input, static_cast<input::keys::key_t>(button), action == GLFW_PRESS);
     });
     glfwSetScrollCallback(m_window, [](GLFWwindow* window, double dx, double dy) {
       auto& self = *static_cast<glfw_event_system*>(glfwGetWindowUserPointer(window));

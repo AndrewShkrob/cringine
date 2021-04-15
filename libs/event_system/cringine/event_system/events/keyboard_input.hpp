@@ -7,7 +7,7 @@ namespace cringine::event_system::events
     class keyboard_input_event
     {
     public:
-        virtual void keyboard_input(input::keys::key_t key, int action) = 0;
+        virtual void keyboard_input(input::keys::key_t key, bool new_state) = 0;
     };
 
     using keyboard_input_event_ptr = keyboard_input_event*;
