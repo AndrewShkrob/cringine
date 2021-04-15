@@ -3,14 +3,10 @@
 using namespace cringine;
 using namespace cringine::types;
 
-// TODO: Remove
-#include <cringine/event_system/input/glfw/glfw_input_manager.hpp>
-//
-
 engine::engine(const configuration::window_configuration& window_config)
     : m_window(window_config)
     , m_event_system(m_window.event_system())
-    , m_input_manager(std::make_shared<event_system::input::glfw_input_manager>())
+    , m_input_manager(std::make_shared<event_system::input::input_manager>())
 {
     init_event_system();
 }
