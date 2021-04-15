@@ -12,15 +12,6 @@ namespace cringine::event_system::input
                           protected events::scroll_input_event
     {
     public:
-        input_manager() = default;
-        virtual ~input_manager() = default;
-
-        input_manager(const input_manager&) = delete;
-        input_manager(input_manager&&) = delete;
-
-        input_manager& operator=(const input_manager&) = delete;
-        input_manager& operator=(input_manager&&) = delete;
-
         void bind_to_event_system(event_system_sptr event_system);
 
         void update_states();
