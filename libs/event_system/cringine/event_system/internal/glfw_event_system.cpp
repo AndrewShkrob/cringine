@@ -23,57 +23,57 @@ void glfw_event_system::register_window_resize_callback(events::window_resize_ev
     m_window_resize_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_window_focus_observer(events::window_focus_event_ptr callback)
+void glfw_event_system::register_window_focus_callback(events::window_focus_event_ptr callback)
 {
     m_window_focus_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_window_refresh_observer(events::window_refresh_event_ptr callback)
+void glfw_event_system::register_window_refresh_callback(events::window_refresh_event_ptr callback)
 {
     m_window_refresh_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_window_iconify_observer(events::window_iconify_event_ptr callback)
+void glfw_event_system::register_window_iconify_callback(events::window_iconify_event_ptr callback)
 {
     m_window_iconify_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_window_maximize_observer(events::window_maximize_event_ptr callback)
+void glfw_event_system::register_window_maximize_callback(events::window_maximize_event_ptr callback)
 {
     m_window_maximize_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_keyboard_input_observer(events::keyboard_input_event_ptr callback)
+void glfw_event_system::register_keyboard_input_callback(events::keyboard_input_event_ptr callback)
 {
     m_keyboard_input_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_char_input_observer(events::char_input_event_ptr callback)
+void glfw_event_system::register_char_input_callback(events::char_input_event_ptr callback)
 {
     m_char_input_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_cursor_position_observer(events::cursor_position_event_ptr callback)
+void glfw_event_system::register_cursor_position_callback(events::cursor_position_event_ptr callback)
 {
     m_cursor_position_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_cursor_focus_observer(events::cursor_focus_event_ptr callback)
+void glfw_event_system::register_cursor_focus_callback(events::cursor_focus_event_ptr callback)
 {
     m_cursor_focus_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_mouse_button_input_observer(events::mouse_button_input_event_ptr callback)
+void glfw_event_system::register_mouse_button_input_callback(events::mouse_button_input_event_ptr callback)
 {
     m_mouse_button_input_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_scroll_input_observer(events::scroll_input_event_ptr callback)
+void glfw_event_system::register_scroll_input_callback(events::scroll_input_event_ptr callback)
 {
     m_scroll_input_observer.add_observer(callback);
 }
 
-void glfw_event_system::register_path_drop_observer(events::path_drop_event_ptr callback)
+void glfw_event_system::register_path_drop_callback(events::path_drop_event_ptr callback)
 {
     m_path_drop_observer.add_observer(callback);
 }

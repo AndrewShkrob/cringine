@@ -4,11 +4,11 @@ using namespace cringine::event_system::input;
 
 void input_manager::bind_to_event_system(event_system_sptr event_system)
 {
-    event_system->register_cursor_focus_observer(this);
-    event_system->register_cursor_position_observer(this);
-    event_system->register_keyboard_input_observer(this);
-    event_system->register_mouse_button_input_observer(this);
-    event_system->register_scroll_input_observer(this);
+    event_system->register_cursor_focus_callback(this);
+    event_system->register_cursor_position_callback(this);
+    event_system->register_keyboard_input_callback(this);
+    event_system->register_mouse_button_input_callback(this);
+    event_system->register_scroll_input_callback(this);
 }
 
 void input_manager::update_states()
