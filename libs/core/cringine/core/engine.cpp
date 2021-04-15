@@ -3,9 +3,9 @@
 using namespace cringine;
 using namespace cringine::types;
 
-// TEMPORARY
+// TODO: Remove
 #include <cringine/event_system/input/glfw/glfw_input_manager.hpp>
-// !TEMPORARY
+//
 
 engine::engine(const configuration::window_configuration& window_config)
     : m_window(window_config)
