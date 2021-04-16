@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include <cringine/graphics/shader_program.hpp>
+#include <cringine/shaders//shader.hpp>
 
-namespace cringine
+namespace cringine::shaders
 {
     class shader_program_builder
     {
@@ -13,7 +13,7 @@ namespace cringine
 
         shader_program_builder& add_fragment_shader(std::string fragment_shader_path);
 
-        shader_program build();
+        shader build();
 
     private:
         std::string m_vertex_shader_path;

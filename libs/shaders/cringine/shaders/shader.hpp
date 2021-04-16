@@ -5,6 +5,8 @@ namespace cringine::shaders
     class shader
     {
     public:
+        explicit shader(unsigned int id);
+
         void use() const;
 
         void disuse() const;

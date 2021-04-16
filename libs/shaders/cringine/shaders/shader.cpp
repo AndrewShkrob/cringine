@@ -4,6 +4,11 @@
 
 using namespace cringine::shaders;
 
+shader::shader(unsigned int id)
+    : m_id(id)
+{
+}
+
 void shader::use() const
 {
     glUseProgram(m_id);
