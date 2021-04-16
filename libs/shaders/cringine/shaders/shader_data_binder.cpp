@@ -24,7 +24,7 @@ shader_data_binder::shader_data_binder(shader& shader)
     glUniform3f(get_uniform_location(uniform_name), v0, v1, v2);
 }
 
-[[maybe_unused]] void shader_data_binder::set_uniform_4f(const std::string& uniform_name, float v0, float v1, float v2, int v3) const
+[[maybe_unused]] void shader_data_binder::set_uniform_4f(const std::string& uniform_name, float v0, float v1, float v2, float v3) const
 {
     glUniform4f(get_uniform_location(uniform_name), v0, v1, v2, v3);
 }

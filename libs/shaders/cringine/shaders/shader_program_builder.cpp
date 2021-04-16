@@ -43,23 +43,38 @@ namespace
                   << info_log.data() << std::endl;
     }
 
-    GLuint compile_shader(const char** shader_source, GLuint shader_type)
+    std::pair<std::vector<const char*>, std::vector<int>> to_char_array(const std::vector<std::string>& data)
     {
+        std::vector<const char*> result;
+        std::vector<int> result_lengths;
+        result.reserve(data.size());
+        result_lengths.reserve(data.size());
+        for (const auto& str : data) {
+            result.push_back(str.c_str());
+            result_lengths.push_back(static_cast<int>(str.size()));
+        }
+        return {std::move(result), std::move(result_lengths)};
+    }
+
+    GLuint compile_shader(const std::vector<std::string>& shader_source, GLuint shader_type)
+    {
+        auto [shader_data, shader_data_lengths] = to_char_array(shader_source);
+
         GLuint shader = glCreateShader(shader_type);
-        glShaderSource(shader, 1, shader_source, nullptr);
+        glShaderSource(shader, shader_data.size(), shader_data.data(), shader_data_lengths.data());
         glCompileShader(shader);
 
         GLint success{};
         glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
-        if (success == 0) {
+        if (success == GL_FALSE) {
             log_shader_error(shader, shader_type);
         }
 
         return shader;
     }
 
-    GLuint create_shader_program(const char** vertex_shader_data, const char** fragment_shader_data)
+    GLuint create_shader_program(const std::vector<std::string>& vertex_shader_data, const std::vector<std::string>& fragment_shader_data)
     {
         GLuint vertex_shader = compile_shader(vertex_shader_data, GL_VERTEX_SHADER);
         GLuint fragment_shader = compile_shader(fragment_shader_data, GL_FRAGMENT_SHADER);
@@ -73,21 +88,11 @@ namespace
         GLint success{};
         glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
 
-        if (success == 0) {
+        if (success == GL_FALSE) {
             log_shader_program_error(shader_program);
         }
 
         return shader_program;
-    }
-
-    std::vector<const char*> to_char_array(const std::vector<std::string>& data)
-    {
-        std::vector<const char*> result;
-        result.reserve(data.size());
-        for (const auto& str : data) {
-            result.push_back(str.c_str());
-        }
-        return std::move(result);
     }
 } // namespace
 
@@ -105,7 +110,7 @@ shader_program_builder& cringine::shaders::shader_program_builder::add_fragment_
 
 shader cringine::shaders::shader_program_builder::build()
 {
-    auto vertex_shader = to_char_array(utils::load_from_file(m_vertex_shader_path));
-    auto fragment_shader = to_char_array(utils::load_from_file(m_fragment_shader_path));
-    return shader(create_shader_program(vertex_shader.data(), fragment_shader.data()));
+    auto vertex_shader = utils::load_from_file(m_vertex_shader_path);
+    auto fragment_shader = utils::load_from_file(m_fragment_shader_path);
+    return shader(create_shader_program(vertex_shader, fragment_shader));
 }

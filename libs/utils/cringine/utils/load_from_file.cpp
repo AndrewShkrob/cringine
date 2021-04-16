@@ -9,11 +9,12 @@ std::vector<std::string> cringine::utils::load_from_file(const std::string& file
 {
     std::vector<std::string> result;
 
-    std::ifstream file;
+    std::ifstream file(file_path);
     file.exceptions(std::ifstream::badbit);
     std::string line;
     try {
         while (std::getline(file, line)) {
+            line += '\n';
             result.push_back(std::move(line));
         }
     } catch (std::ifstream::failure& /* unused */) {

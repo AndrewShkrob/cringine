@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cringine/shaders/shader.hpp>
-#include <cringine/shaders/shader_uniform_type.hpp>
 
 #include <string>
 
@@ -15,7 +14,7 @@ namespace cringine::shaders
         [[maybe_unused]] void set_uniform_1f(const std::string& uniform_name, float v0) const;
         [[maybe_unused]] void set_uniform_2f(const std::string& uniform_name, float v0, float v1) const;
         [[maybe_unused]] void set_uniform_3f(const std::string& uniform_name, float v0, float v1, float v2) const;
-        [[maybe_unused]] void set_uniform_4f(const std::string& uniform_name, float v0, float v1, float v2, int v3) const;
+        [[maybe_unused]] void set_uniform_4f(const std::string& uniform_name, float v0, float v1, float v2, float v3) const;
 
         [[maybe_unused]] void set_uniform_1i(const std::string& uniform_name, int v0) const;
         [[maybe_unused]] void set_uniform_2i(const std::string& uniform_name, int v0, int v1) const;
