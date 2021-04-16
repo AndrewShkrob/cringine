@@ -4,7 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <cringine/graphics/shader_program_builder.hpp>
+#include <cringine/shaders/shader_program_builder.hpp>
+#include <cringine/shaders/shader_data_binder.hpp>
 #include <cringine/types/camera.hpp>
 #include <cringine/core/engine.hpp>
 
@@ -30,11 +31,17 @@ int main()
     glEnable(GL_DEPTH_TEST);
     glViewport(0, 0, engine.window().width(), engine.window().height());
 
-    cringine::shader_program lightingShader =
-        cringine::shader_program_builder().add_vertex_shader("shaders/lighting.vertex").add_fragment_shader("shaders/lighting.fragment").build();
+    cringine::shaders::shader lightingShader =
+        cringine::shaders::shader_program_builder()
+            .add_vertex_shader("shaders/lighting.vertex")
+            .add_fragment_shader("shaders/lighting.fragment")
+            .build();
 
-    cringine::shader_program lampShader =
-        cringine::shader_program_builder().add_vertex_shader("shaders/lamp.vertex").add_fragment_shader("shaders/lamp.fragment").build();
+    cringine::shaders::shader lampShader =
+        cringine::shaders::shader_program_builder()
+            .add_vertex_shader("shaders/lamp.vertex")
+            .add_fragment_shader("shaders/lamp.fragment")
+            .build();
 
     GLuint cubeVAO = generate_cube_vao();
     GLuint lampVAO = generate_cube_vao();
@@ -90,30 +97,32 @@ int main()
         lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
 
         lightingShader.use();
-        lightingShader.set_uniform_3f("objectColor", 1.0f, 0.5f, 0.31f);
-        lightingShader.set_uniform_3f("lightColor", 1.0f, 1.0f, 1.0f);
-        lightingShader.set_uniform_3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
-        lightingShader.set_uniform_3f("viewPos", camera.position().x, camera.position().y, camera.position().z);
+        cringine::shaders::shader_data_binder lighting_binder(lightingShader);
+        lighting_binder.set_uniform_3f("objectColor", 1.0f, 0.5f, 0.31f);
+        lighting_binder.set_uniform_3f("lightColor", 1.0f, 1.0f, 1.0f);
+        lighting_binder.set_uniform_3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
+        lighting_binder.set_uniform_3f("viewPos", camera.position().x, camera.position().y, camera.position().z);
 
         glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 view = camera.view_matrix();
         glm::mat4 projection = glm::perspective(glm::radians(camera.zoom()), static_cast<float>(engine.window().width()) / static_cast<float>(engine.window().height()), 0.1f, 100.0f);
 
-        lightingShader.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
-        lightingShader.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
-        lightingShader.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
+        lighting_binder.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
+        lighting_binder.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
+        lighting_binder.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
 
         glBindVertexArray(cubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         lampShader.use();
+        cringine::shaders::shader_data_binder lamp_binder(lampShader);
 
         model = glm::translate(glm::mat4(1.0f), lightPos);
         model = glm::scale(model, glm::vec3(0.2f));
 
-        lampShader.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
-        lampShader.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
-        lampShader.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
+        lamp_binder.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
+        lamp_binder.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
+        lamp_binder.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
 
         glBindVertexArray(lampVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);

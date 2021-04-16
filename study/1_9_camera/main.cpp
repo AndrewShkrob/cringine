@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <cringine/graphics/shader_program_builder.hpp>
+#include <cringine/shaders/shader_program_builder.hpp>
 #include <cringine/types/camera.hpp>
 #include <cringine/core/engine.hpp>
 
@@ -130,8 +130,11 @@ int main()
     glEnable(GL_DEPTH_TEST);
     glViewport(0, 0, engine.window().width(), engine.window().height());
 
-    cringine::shader_program shaderProgram =
-        cringine::shader_program_builder().add_vertex_shader("shaders/shader.vertex").add_fragment_shader("shaders/shader.fragment").build();
+    cringine::shaders::shader shaderProgram =
+        cringine::shaders::shader_program_builder()
+            .add_vertex_shader("shaders/shader.vertex")
+            .add_fragment_shader("shaders/shader.fragment")
+            .build();
 
     GLuint cubeVAO = generate_cube_vao();
     GLuint texture1 = load_texture("textures/container.jpg");
@@ -197,20 +200,20 @@ int main()
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
-        glUniform1i(glGetUniformLocation(shaderProgram.program(), "ourTexture1"), 0);
+        glUniform1i(glGetUniformLocation(shaderProgram.id(), "ourTexture1"), 0);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture2);
-        glUniform1i(glGetUniformLocation(shaderProgram.program(), "ourTexture2"), 1);
+        glUniform1i(glGetUniformLocation(shaderProgram.id(), "ourTexture2"), 1);
         GLfloat mix_val = static_cast<GLfloat>(sin(glfwGetTime())) * 0.5f + 0.5f;
-        glUniform1f(glGetUniformLocation(shaderProgram.program(), "mixValue"), mix_val);
+        glUniform1f(glGetUniformLocation(shaderProgram.id(), "mixValue"), mix_val);
 
         glm::mat4 view = camera.view_matrix();
         glm::mat4 projection = glm::perspective(glm::radians(camera.zoom()), static_cast<float>(engine.window().width()) / static_cast<float>(engine.window().height()), 0.1f, 100.0f);
 
-        GLint modelLoc = glGetUniformLocation(shaderProgram.program(), "model");
-        GLint viewLoc = glGetUniformLocation(shaderProgram.program(), "view");
+        GLint modelLoc = glGetUniformLocation(shaderProgram.id(), "model");
+        GLint viewLoc = glGetUniformLocation(shaderProgram.id(), "view");
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-        GLint projLoc = glGetUniformLocation(shaderProgram.program(), "projection");
+        GLint projLoc = glGetUniformLocation(shaderProgram.id(), "projection");
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
         shaderProgram.use();

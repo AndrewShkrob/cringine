@@ -4,7 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <cringine/graphics/shader_program_builder.hpp>
+#include <cringine/shaders/shader_program_builder.hpp>
+#include <cringine/shaders/shader_data_binder.hpp>
 #include <cringine/types/camera.hpp>
 #include <cringine/core/engine.hpp>
 
@@ -30,11 +31,17 @@ int main()
     glEnable(GL_DEPTH_TEST);
     glViewport(0, 0, engine.window().width(), engine.window().height());
 
-    cringine::shader_program shaderProgram =
-        cringine::shader_program_builder().add_vertex_shader("shaders/shader.vertex").add_fragment_shader("shaders/shader.fragment").build();
+    cringine::shaders::shader shaderProgram =
+        cringine::shaders::shader_program_builder()
+            .add_vertex_shader("shaders/shader.vertex")
+            .add_fragment_shader("shaders/shader.fragment")
+            .build();
 
-    cringine::shader_program lightShader =
-        cringine::shader_program_builder().add_vertex_shader("shaders/light.vertex").add_fragment_shader("shaders/light.fragment").build();
+    cringine::shaders::shader lightShader =
+        cringine::shaders::shader_program_builder()
+            .add_vertex_shader("shaders/light.vertex")
+            .add_fragment_shader("shaders/light.fragment")
+            .build();
 
     GLuint cubeVAO = generate_cube_vao();
     GLuint lightVAO = generate_cube_vao();
@@ -87,29 +94,31 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shaderProgram.use();
-        shaderProgram.set_uniform_3f("objectColor", 1.0f, 0.5f, 0.31f);
-        shaderProgram.set_uniform_3f("lightColor", 1.0f, 1.0f, 1.0f);
+        cringine::shaders::shader_data_binder binder(shaderProgram);
+        binder.set_uniform_3f("objectColor", 1.0f, 0.5f, 0.31f);
+        binder.set_uniform_3f("lightColor", 1.0f, 1.0f, 1.0f);
 
         GLfloat angle = glm::radians((GLfloat) glfwGetTime() * 5.0f);
         glm::mat4 model = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1.0f, 1.0f, 1.0f));
         glm::mat4 view = camera.view_matrix();
         glm::mat4 projection = glm::perspective(glm::radians(camera.zoom()), static_cast<float>(engine.window().width()) / static_cast<float>(engine.window().height()), 0.1f, 100.0f);
 
-        shaderProgram.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
-        shaderProgram.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
-        shaderProgram.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
+        binder.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
+        binder.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
+        binder.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
 
         glBindVertexArray(cubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         lightShader.use();
+        cringine::shaders::shader_data_binder light_binder(lightShader);
 
         model = glm::translate(glm::mat4(1.0f), lightPos);
         model = glm::scale(model, glm::vec3(0.2f));
 
-        lightShader.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
-        lightShader.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
-        lightShader.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
+        light_binder.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
+        light_binder.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
+        light_binder.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
 
         glBindVertexArray(lightVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);

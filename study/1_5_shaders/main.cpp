@@ -1,8 +1,7 @@
 #include <GL/glew.h>
 
 #include <cringine/core/engine.hpp>
-#include <cringine/graphics/shader_program.hpp>
-#include <cringine/graphics/shader_program_builder.hpp>
+#include <cringine/shaders/shader_program_builder.hpp>
 
 #include <iostream>
 
@@ -41,8 +40,11 @@ int main()
 
     glViewport(0, 0, engine.window().width(), engine.window().height());
 
-    cringine::shader_program shaderProgram =
-        cringine::shader_program_builder().add_vertex_shader("shaders/shader.vertex").add_fragment_shader("shaders/shader.fragment").build();
+    cringine::shaders::shader shaderProgram =
+        cringine::shaders::shader_program_builder()
+            .add_vertex_shader("shaders/shader.vertex")
+            .add_fragment_shader("shaders/shader.fragment")
+            .build();
 
     GLuint triangleVAO = generate_triangle_vao();
 

@@ -6,7 +6,8 @@
 
 #include <SOIL2.h>
 
-#include <cringine/graphics/shader_program_builder.hpp>
+#include <cringine/shaders/shader_program_builder.hpp>
+#include <cringine/shaders/shader_data_binder.hpp>
 #include <cringine/types/camera.hpp>
 #include <cringine/core/engine.hpp>
 
@@ -42,14 +43,14 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
-    cringine::shader_program lightingShader =
-        cringine::shader_program_builder()
+    cringine::shaders::shader lightingShader =
+        cringine::shaders::shader_program_builder()
             .add_vertex_shader(std::string(RESOURCES) + "/shaders/2_4_texture_maps/lighting.vertex")
             .add_fragment_shader(std::string(RESOURCES) + "/shaders/2_4_texture_maps/lighting.fragment")
             .build();
 
-    cringine::shader_program lampShader =
-        cringine::shader_program_builder()
+    cringine::shaders::shader lampShader =
+        cringine::shaders::shader_program_builder()
             .add_vertex_shader(std::string(RESOURCES) + "/shaders/2_4_texture_maps/lamp.vertex")
             .add_fragment_shader(std::string(RESOURCES) + "/shaders/2_4_texture_maps/lamp.fragment")
             .build();
@@ -120,16 +121,17 @@ int main()
         glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
 
         lightingShader.use();
-        lightingShader.set_uniform_3f("objectColor", 1.0f, 0.5f, 0.31f);
-        lightingShader.set_uniform_3f("lightColor", 1.0f, 1.0f, 1.0f);
-        lightingShader.set_uniform_3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
-        lightingShader.set_uniform_3f("viewPos", camera.position().x, camera.position().y, camera.position().z);
-        lightingShader.set_uniform_1i("material.diffuse", 0);
-        lightingShader.set_uniform_1i("material.specular", 1);
-        lightingShader.set_uniform_1f("material.shininess", 32.0f);
-        lightingShader.set_uniform_3f("light.ambient", ambientColor.r, ambientColor.g, ambientColor.b);
-        lightingShader.set_uniform_3f("light.diffuse", diffuseColor.r, diffuseColor.g, diffuseColor.b);
-        lightingShader.set_uniform_3f("light.specular", 1.0f, 1.0f, 1.0f);
+        cringine::shaders::shader_data_binder lighting_binder(lightingShader);
+        lighting_binder.set_uniform_3f("objectColor", 1.0f, 0.5f, 0.31f);
+        lighting_binder.set_uniform_3f("lightColor", 1.0f, 1.0f, 1.0f);
+        lighting_binder.set_uniform_3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
+        lighting_binder.set_uniform_3f("viewPos", camera.position().x, camera.position().y, camera.position().z);
+        lighting_binder.set_uniform_1i("material.diffuse", 0);
+        lighting_binder.set_uniform_1i("material.specular", 1);
+        lighting_binder.set_uniform_1f("material.shininess", 32.0f);
+        lighting_binder.set_uniform_3f("light.ambient", ambientColor.r, ambientColor.g, ambientColor.b);
+        lighting_binder.set_uniform_3f("light.diffuse", diffuseColor.r, diffuseColor.g, diffuseColor.b);
+        lighting_binder.set_uniform_3f("light.specular", 1.0f, 1.0f, 1.0f);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, diffuseMap);
@@ -140,22 +142,23 @@ int main()
         glm::mat4 view = camera.view_matrix();
         glm::mat4 projection = glm::perspective(glm::radians(camera.zoom()), static_cast<float>(engine.window().width()) / static_cast<float>(engine.window().height()), 0.1f, 100.0f);
 
-        lightingShader.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
-        lightingShader.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
-        lightingShader.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
+        lighting_binder.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
+        lighting_binder.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
+        lighting_binder.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
 
         glBindVertexArray(cubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         lampShader.use();
+        cringine::shaders::shader_data_binder lamp_binder(lampShader);
 
         model = glm::translate(glm::mat4(1.0f), lightPos);
         model = glm::scale(model, glm::vec3(0.2f));
 
-        lampShader.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
-        lampShader.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
-        lampShader.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
-        lampShader.set_uniform_3f("lampColor", lightColor.r, lightColor.g, lightColor.b);
+        lamp_binder.set_uniform_matrix4fv("model", 1, GL_FALSE, glm::value_ptr(model));
+        lamp_binder.set_uniform_matrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
+        lamp_binder.set_uniform_matrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
+        lamp_binder.set_uniform_3f("lampColor", lightColor.r, lightColor.g, lightColor.b);
 
         glBindVertexArray(lampVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);

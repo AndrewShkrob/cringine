@@ -3,7 +3,7 @@
 #include <SOIL2.h>
 
 #include <cringine/core/engine.hpp>
-#include <cringine/graphics/shader_program_builder.hpp>
+#include <cringine/shaders/shader_program_builder.hpp>
 
 #include <iostream>
 #include <cmath>
@@ -70,8 +70,11 @@ int main()
 
     glViewport(0, 0, engine.window().width(), engine.window().height());
 
-    cringine::shader_program shaderProgram =
-        cringine::shader_program_builder().add_vertex_shader("shaders/shader.vertex").add_fragment_shader("shaders/shader.fragment").build();
+    cringine::shaders::shader shaderProgram =
+        cringine::shaders::shader_program_builder()
+            .add_vertex_shader("shaders/shader.vertex")
+            .add_fragment_shader("shaders/shader.fragment")
+            .build();
 
     GLuint rectVAO = generate_rect_vao();
     GLuint texture1 = load_texture("textures/container.jpg");
@@ -83,12 +86,12 @@ int main()
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
-        glUniform1i(glGetUniformLocation(shaderProgram.program(), "ourTexture1"), 0);
+        glUniform1i(glGetUniformLocation(shaderProgram.id(), "ourTexture1"), 0);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture2);
-        glUniform1i(glGetUniformLocation(shaderProgram.program(), "ourTexture2"), 1);
+        glUniform1i(glGetUniformLocation(shaderProgram.id(), "ourTexture2"), 1);
         GLfloat mix_val = static_cast<GLfloat>(sin(glfwGetTime())) * 0.5f + 0.5f;
-        glUniform1f(glGetUniformLocation(shaderProgram.program(), "mixValue"), mix_val);
+        glUniform1f(glGetUniformLocation(shaderProgram.id(), "mixValue"), mix_val);
 
         shaderProgram.use();
 
