@@ -4,20 +4,18 @@
 
 using namespace cringine::renderer::types;
 
-rendered_mesh::rendered_mesh(object_types::mesh_data::vertex_array vertices, object_types::mesh_data::index_array indices, object_types::mesh_data::texture_array textures)
-    : m_mesh_data(std::make_shared<object_types::mesh_data>())
+namespace object_types = cringine::types::object;
+
+rendered_mesh::rendered_mesh(object_types::mesh_data_sptr mesh_data)
+    : m_mesh_data(std::move(mesh_data))
     , m_vao(0)
     , m_vbo(0)
     , m_ebo(0)
 {
-    m_mesh_data->vertices = std::move(vertices);
-    m_mesh_data->indices = std::move(indices);
-    m_mesh_data->textures = std::move(textures);
-
     init();
 }
 
-rendered_mesh::rendered_mesh(const rendered_mesh& mesh)
+[[maybe_unused]] rendered_mesh::rendered_mesh(const rendered_mesh& mesh)
     : m_mesh_data(mesh.m_mesh_data)
     , m_vao(0)
     , m_vbo(mesh.m_vbo)
@@ -30,7 +28,7 @@ rendered_mesh::rendered_mesh(const rendered_mesh& mesh)
     glBindVertexArray(0);
 }
 
-rendered_mesh::rendered_mesh(rendered_mesh&& mesh) noexcept
+[[maybe_unused]] rendered_mesh::rendered_mesh(rendered_mesh&& mesh) noexcept
     : m_mesh_data(std::move(mesh.m_mesh_data))
     , m_vao(mesh.m_vao)
     , m_vbo(mesh.m_vbo)
