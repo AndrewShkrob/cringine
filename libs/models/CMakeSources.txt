@@ -1,0 +1,7 @@
+set(CRINGINE_MODELS_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/models/internal/assimp_model_loader.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/models/internal/assimp_model_loader.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/models/types/mesh_model.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/models/model_loader.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/models/model_loader.cpp
+)
