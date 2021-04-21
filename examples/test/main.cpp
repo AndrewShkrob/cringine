@@ -11,7 +11,10 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
+#include <iomanip>
 #include <cmath>
+
+using namespace cringine::event_system::input::keys;
 
 class model
 {
@@ -40,47 +43,56 @@ private:
     cringine::models::types::mesh_model m_model;
 };
 
-class a : cringine::event_system::events::window_close_event
+class a : cringine::event_system::events::window_close_event,
+          cringine::event_system::events::cursor_position_event
 {
 public:
+    explicit a() = default;
+
+    void init()
+    {
+        cringine::types::configuration::window_configuration window_config{800, 600, "Hello"};
+        m_engine = std::make_unique<cringine::engine>(window_config);
+        m_camera = cringine::types::camera(glm::vec3(0.0f, 0.0f, 3.0f));
+
+        m_engine->event_system()->register_window_close_callback(this);
+        m_engine->event_system()->register_cursor_position_callback(this);
+
+        m_model = std::make_unique<model>(std::string(RESOURCES) + "models/backpack/backpack.obj");
+    }
+
     void launch()
     {
-        cringine::engine engine({800, 600, "Hello"});
+        cringine::shaders::shader shader = cringine::shaders::shader_program_builder()
+                                               .add_fragment_shader(std::string(RESOURCES) + "shaders/3_3_models/model.fragment")
+                                               .add_vertex_shader(std::string(RESOURCES) + "shaders/3_3_models/model.vertex")
+                                               .build();
 
-        auto m = model(std::string(RESOURCES) + "models/backpack/backpack.obj");
-        cringine::shaders::shader s = cringine::shaders::shader_program_builder()
-                                          .add_fragment_shader(std::string(RESOURCES) + "shaders/3_3_models/model.fragment")
-                                          .add_vertex_shader(std::string(RESOURCES) + "shaders/3_3_models/model.vertex")
-                                          .build();
-        cringine::shaders::shader_data_binder binder(s);
-
-        cringine::types::camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-
-        engine.event_system()->register_window_close_callback(this);
         glEnable(GL_DEPTH_TEST);
-
-
-        engine.start([&]() {
+        cringine::shaders::shader_data_binder shader_binder(shader);
+        m_engine->start([&, this]() {
             glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            s.use();
-            glm::mat4 projection = glm::perspective(camera.zoom(), (float) 800 / (float) 600, 0.1f, 100.0f);
-            glm::mat4 view = camera.view_matrix();
-            binder.set_uniform_matrix4fv("projection", 1, false, glm::value_ptr(projection));
-            binder.set_uniform_matrix4fv("view", 1, false, glm::value_ptr(view));
+            shader.use();
+            glm::mat4 projection = glm::perspective(m_camera.zoom(), (float) 800 / (float) 600, 0.1f, 100.0f);
+            glm::mat4 view = m_camera.view_matrix();
+            shader_binder.set_uniform_matrix4fv("projection", 1, false, glm::value_ptr(projection));
+            shader_binder.set_uniform_matrix4fv("view", 1, false, glm::value_ptr(view));
 
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+            model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
             model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 
-            binder.set_uniform_matrix4fv("model", 1, false, glm::value_ptr(model));
+            shader_binder.set_uniform_matrix4fv("model", 1, false, glm::value_ptr(model));
 
-            m.render(s);
+            m_model->render(shader);
 
-            if (engine.input_manager().is_key_pressed(cringine::event_system::input::keys::KEY_A)) {
-                std::cout << "FPS: " << engine.fps() << " Delta time: " << engine.delta_time() << std::endl;
-            }
+            keyboard_input();
+
+            std::ostringstream title;
+            title << "FPS: " << std::setfill('0') << std::setw(5) << m_engine->fps() << " Delta time: " << m_engine->delta_time();
+            m_engine->window().set_title(title.str());
         });
     }
 
@@ -88,10 +100,58 @@ public:
     {
         std::cout << "CLOSE" << std::endl;
     }
+
+    void keyboard_input()
+    {
+        if (m_engine->input_manager().is_key_released(KEY_ESCAPE)) {
+            m_engine->stop();
+        }
+
+        if (m_engine->input_manager().is_key_down(KEY_W)) {
+            m_camera.process_keyboard(cringine::types::camera::direction::FORWARD, m_engine->delta_time());
+        }
+        if (m_engine->input_manager().is_key_down(KEY_S)) {
+            m_camera.process_keyboard(cringine::types::camera::direction::BACKWARD, m_engine->delta_time());
+        }
+        if (m_engine->input_manager().is_key_down(KEY_A)) {
+            m_camera.process_keyboard(cringine::types::camera::direction::LEFT, m_engine->delta_time());
+        }
+        if (m_engine->input_manager().is_key_down(KEY_D)) {
+            m_camera.process_keyboard(cringine::types::camera::direction::RIGHT, m_engine->delta_time());
+        }
+    }
+
+    void cursor_position(double x, double y) override
+    {
+        if (m_first_move) {
+            m_last_x = x;
+            m_last_y = y;
+            m_first_move = false;
+        }
+
+        double x_offset = x - m_last_x;
+        double y_offset = m_last_y - y;
+
+        m_last_x = x;
+        m_last_y = y;
+
+        m_camera.process_mouse_move(static_cast<float>(x_offset), static_cast<float>(y_offset));
+    }
+
+private:
+    std::unique_ptr<cringine::engine> m_engine;
+    cringine::types::camera m_camera;
+    std::unique_ptr<model> m_model;
+
+    double m_last_x = 0;
+    double m_last_y = 0;
+    bool m_first_move = true;
 };
 
 int main()
 {
-    a().launch();
+    a a;
+    a.init();
+    a.launch();
     return 0;
 }
