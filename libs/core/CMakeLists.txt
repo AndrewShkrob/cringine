@@ -10,4 +10,5 @@ target_link_libraries(${CRINGINE_LIB_NAME}
     PUBLIC cringine_types
     PUBLIC cringine_utils
     PUBLIC cringine_window
+    PUBLIC cringine_renderer
 )

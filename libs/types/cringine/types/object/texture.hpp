@@ -7,13 +7,13 @@ namespace cringine::types::object
 {
     struct texture
     {
-        enum class type
+        enum class texture_type
         {
             DIFFUSE,
             SPECULAR
         };
 
         unsigned int id;
-        type type;
+        texture_type type;
     };
 } // namespace cringine::types::object

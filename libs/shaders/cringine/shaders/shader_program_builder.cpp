@@ -110,7 +110,7 @@ shader_program_builder& cringine::shaders::shader_program_builder::add_fragment_
 
 shader cringine::shaders::shader_program_builder::build()
 {
-    auto vertex_shader = utils::load_from_file(m_vertex_shader_path);
-    auto fragment_shader = utils::load_from_file(m_fragment_shader_path);
+    auto vertex_shader = utils::shader_from_file(m_vertex_shader_path);
+    auto fragment_shader = utils::shader_from_file(m_fragment_shader_path);
     return shader(create_shader_program(vertex_shader, fragment_shader));
 }

@@ -1,5 +1,6 @@
 add_subdirectory(core)
 add_subdirectory(event_system)
+add_subdirectory(models)
 add_subdirectory(renderer)
 add_subdirectory(shaders)
 add_subdirectory(types)

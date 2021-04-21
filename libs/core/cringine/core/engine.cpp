@@ -1,5 +1,7 @@
 #include "engine.hpp"
 
+#include <cringine/renderer/renderer_initializer.hpp>
+
 using namespace cringine;
 using namespace cringine::types;
 
@@ -7,6 +9,7 @@ engine::engine(const configuration::window_configuration& window_config)
     : m_window(window_config)
     , m_event_system(m_window.event_system())
 {
+    cringine::renderer::initialize();
     init_event_system();
 }
 
@@ -36,7 +39,7 @@ double engine::time() const
     return m_fps_counter.time();
 }
 
-const window & engine::window() const
+const window& engine::window() const
 {
     return m_window;
 }
@@ -55,7 +58,6 @@ void engine::loop(const render_func& func)
 {
     m_running = true;
     while (!m_stop) {
-        m_window.update();
         if (m_stop) {
             break;
         }
@@ -63,6 +65,7 @@ void engine::loop(const render_func& func)
         func();
 
         m_window.render();
+        m_window.update();
     }
     m_running = false;
 }
