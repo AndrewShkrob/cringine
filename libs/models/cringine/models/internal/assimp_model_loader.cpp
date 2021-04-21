@@ -82,9 +82,9 @@ object_data::mesh_data::texture_array assimp_model_loader::load_material_texture
         mat->GetTexture(type, i, &str);
         // TODO: make it beautiful
         bool skip = false;
-        for (unsigned int j = 0; j < m_result_model.loaded_textures.size(); j++) {
-            if (std::strcmp(m_result_model.loaded_textures[j].path.c_str(), str.C_Str()) == 0) {
-                textures.push_back(m_result_model.loaded_textures[j]);
+        for (auto & loaded_texture : m_result_model.loaded_textures) {
+            if (std::strcmp(loaded_texture.path.c_str(), str.C_Str()) == 0) {
+                textures.push_back(loaded_texture);
                 skip = true;
                 break;
             }
