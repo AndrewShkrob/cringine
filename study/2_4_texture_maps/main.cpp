@@ -4,12 +4,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <SOIL2.h>
-
 #include <cringine/shaders/shader_program_builder.hpp>
 #include <cringine/shaders/shader_data_binder.hpp>
 #include <cringine/types/camera.hpp>
 #include <cringine/core/engine.hpp>
+#include <cringine/utils/load_from_file.hpp>
 
 #include <iostream>
 #include <array>
@@ -18,8 +17,6 @@ GLuint generate_cube_vao();
 
 template<std::size_t keys_size>
 void move_camera(cringine::types::camera& camera, float delta_time, const std::array<bool, keys_size>& keys);
-
-GLuint load_texture(const std::string& img_path);
 
 class window_resize_event : public cringine::event_system::events::window_resize_event
 {
@@ -100,8 +97,8 @@ int main()
 
     glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
-    GLuint diffuseMap = load_texture(std::string(RESOURCES) + "textures/container2.png");
-    GLuint specularMap = load_texture(std::string(RESOURCES) + "textures/container2_specular.png");
+    GLuint diffuseMap = cringine::utils::texture_from_file(std::string(RESOURCES) + "textures/container2.png");
+    GLuint specularMap = cringine::utils::texture_from_file(std::string(RESOURCES) + "textures/container2_specular.png");
 
     engine.start([&]() {
         auto currentFrame = static_cast<float>(glfwGetTime());
@@ -256,23 +253,4 @@ void move_camera(cringine::types::camera& camera, float delta_time, const std::a
     if (keys[GLFW_KEY_D]) {
         camera.process_keyboard(cringine::types::camera::direction::RIGHT, delta_time);
     }
-}
-
-GLuint load_texture(const std::string& img_path)
-{
-    int width{};
-    int height{};
-    unsigned char* image = SOIL_load_image(img_path.c_str(), &width, &height, nullptr, SOIL_LOAD_RGB);
-    GLuint texture{};
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    SOIL_free_image_data(image);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    return texture;
 }
