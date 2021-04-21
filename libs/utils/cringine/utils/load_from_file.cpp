@@ -1,10 +1,8 @@
 #include "load_from_file.hpp"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <cringine/utils/internal/stb_image.hpp>
-
 #include <GL/glew.h>
 
+#include <stb_image.h>
 #include <fstream>
 #include <iostream>
 
@@ -31,6 +29,7 @@ std::vector<std::string> cringine::utils::shader_from_file(const std::string& fi
 
 unsigned int cringine::utils::texture_from_file(const std::string& file_path)
 {
+    stbi_set_flip_vertically_on_load(1);
     unsigned int texture_id{};
     glGenTextures(1, &texture_id);
 
