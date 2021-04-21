@@ -78,7 +78,9 @@ public:
 
             m.render(s);
 
-            std::cout << "FPS: " << engine.fps() << " Delta time: " << engine.delta_time() << std::endl;
+            if (engine.input_manager().is_key_pressed(cringine::event_system::input::keys::KEY_A)) {
+                std::cout << "FPS: " << engine.fps() << " Delta time: " << engine.delta_time() << std::endl;
+            }
         });
     }
 
