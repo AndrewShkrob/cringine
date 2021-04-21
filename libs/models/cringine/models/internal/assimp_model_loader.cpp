@@ -62,13 +62,13 @@ object_data::mesh_data_sptr assimp_model_loader::process_mesh(aiMesh* mesh, cons
         }
     }
 
-//    if (mesh->mMaterialIndex >= 0) {
-//        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-//        object_data::mesh_data::texture_array diffuse_maps = load_material_textures(material, aiTextureType_DIFFUSE, object_data::texture::texture_type::DIFFUSE);
-//        std::move(std::begin(diffuse_maps), std::end(diffuse_maps), std::back_inserter(mesh_ptr->textures));
-//        object_data::mesh_data::texture_array specular_maps = load_material_textures(material, aiTextureType_SPECULAR, object_data::texture::texture_type::SPECULAR);
-//        std::move(std::begin(specular_maps), std::end(specular_maps), std::back_inserter(mesh_ptr->textures));
-//    }
+    if (mesh->mMaterialIndex >= 0) {
+        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        object_data::mesh_data::texture_array diffuse_maps = load_material_textures(material, aiTextureType_DIFFUSE, object_data::texture::texture_type::DIFFUSE);
+        std::move(std::begin(diffuse_maps), std::end(diffuse_maps), std::back_inserter(mesh_ptr->textures));
+        object_data::mesh_data::texture_array specular_maps = load_material_textures(material, aiTextureType_SPECULAR, object_data::texture::texture_type::SPECULAR);
+        std::move(std::begin(specular_maps), std::end(specular_maps), std::back_inserter(mesh_ptr->textures));
+    }
 
     return mesh_ptr;
 }
@@ -80,10 +80,24 @@ object_data::mesh_data::texture_array assimp_model_loader::load_material_texture
     for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
         aiString str;
         mat->GetTexture(type, i, &str);
+        // TODO: make it beautiful
+        bool skip = false;
+        for (unsigned int j = 0; j < m_result_model.loaded_textures.size(); j++) {
+            if (std::strcmp(m_result_model.loaded_textures[j].path.c_str(), str.C_Str()) == 0) {
+                textures.push_back(m_result_model.loaded_textures[j]);
+                skip = true;
+                break;
+            }
+        }
+        if (skip) {
+            continue;
+        }
         object_data::mesh_data::texture_type texture;
         texture.id = cringine::utils::texture_from_file(m_model_directory_path + "/" + str.C_Str());
         texture.type = texture_type;
+        texture.path = std::string(str.C_Str());
         textures.push_back(texture);
+        m_result_model.loaded_textures.push_back(texture);
     }
     return std::move(textures);
 }

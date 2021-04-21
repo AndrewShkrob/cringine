@@ -1,7 +1,6 @@
 #pragma once
 
-#include <glm/vec3.hpp>
-#include <glm/vec2.hpp>
+#include <string>
 
 namespace cringine::types::object
 {
@@ -15,5 +14,6 @@ namespace cringine::types::object
 
         unsigned int id;
         texture_type type;
+        std::string path;
     };
 } // namespace cringine::types::object
