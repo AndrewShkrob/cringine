@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(RESOURCES_PATH ${CMAKE_CURRENT_LIST_DIR}/resources/)
 
+set(BUILD_SHARED_LIBS OFF)
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
+
 add_subdirectory(third_party)
 add_subdirectory(libs)
 add_subdirectory(examples)
