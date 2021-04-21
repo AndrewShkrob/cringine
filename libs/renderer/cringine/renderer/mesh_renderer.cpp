@@ -17,7 +17,7 @@ mesh_renderer::mesh_renderer(types::rendered_mesh& rendered_mesh)
 
 void mesh_renderer::render(cringine::shaders::shader& shader)
 {
-//    shader.use();
+    //    shader.use();
     shaders::shader_data_binder binder(shader);
     unsigned int diffuse_texture_idx = 1;
     unsigned int specular_texture_idx = 1;
@@ -38,6 +38,11 @@ void mesh_renderer::render(cringine::shaders::shader& shader)
         glBindTexture(GL_TEXTURE_2D, texture.id);
         uniform_name.clear();
     }
+    glActiveTexture(GL_TEXTURE0);
 
-//    shader.disuse();
+    glBindVertexArray(m_rendered_mesh.m_vao);
+    glDrawElements(GL_TRIANGLES, m_rendered_mesh.m_mesh_data->indices.size(), GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+
+    //    shader.disuse();
 }
