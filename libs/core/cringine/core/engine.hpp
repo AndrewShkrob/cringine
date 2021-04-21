@@ -18,6 +18,8 @@ namespace cringine
 
         void start(const render_func& func);
 
+        void stop();
+
         event_system::event_system_sptr event_system();
 
         [[nodiscard]] double delta_time() const;

@@ -19,9 +19,19 @@ void engine::start(const render_func& func)
     loop(func);
 }
 
+void engine::stop()
+{
+    m_stop = true;
+}
+
 event_system::event_system_sptr engine::event_system()
 {
     return m_event_system;
+}
+
+const event_system::input::input_manager& engine::input_manager() const
+{
+    return m_input_manager;
 }
 
 double engine::delta_time() const
@@ -42,11 +52,6 @@ double engine::time() const
 const window& engine::window() const
 {
     return m_window;
-}
-
-const event_system::input::input_manager& engine::input_manager() const
-{
-    return m_input_manager;
 }
 
 void engine::window_close()
