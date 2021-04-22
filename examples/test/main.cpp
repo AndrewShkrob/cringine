@@ -14,6 +14,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
+#include <sstream>
 
 using namespace cringine::event_system::input::keys;
 
@@ -72,6 +73,7 @@ public:
         cringine::renderer::enable_depth_buffer();
         cringine::renderer::set_clear_color(0.05f, 0.05f, 0.05f, 1.0f);
         cringine::shaders::shader_data_binder shader_binder(shader);
+        std::ostringstream title;
         m_engine->start([&, this]() {
             cringine::renderer::clear();
 
@@ -91,7 +93,8 @@ public:
 
             keyboard_input();
 
-            std::ostringstream title;
+            title.str("");
+            title.clear();
             title << "FPS: " << std::setfill('0') << std::setw(5) << m_engine->fps() << " Delta time: " << m_engine->delta_time();
             m_engine->window().set_title(title.str());
         });
