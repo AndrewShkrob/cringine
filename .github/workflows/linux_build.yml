@@ -36,4 +36,4 @@ jobs:
         shell: bash
         run: |
           cd build
-          cmake --build . --config ${{matrix.build_type}} -j6
+          cmake --build . --target example_test --config ${{matrix.build_type}} -j6
