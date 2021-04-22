@@ -2,6 +2,7 @@
 #include <cringine/models/model_loader.hpp>
 #include <cringine/renderer/types/rendered_mesh.hpp>
 #include <cringine/renderer/mesh_renderer.hpp>
+#include <cringine/renderer/renderer_utils.hpp>
 #include <cringine/shaders/shader_program_builder.hpp>
 #include <cringine/shaders/shader_data_binder.hpp>
 #include <cringine/types/camera.hpp>
@@ -68,11 +69,11 @@ public:
                                                .add_vertex_shader(std::string(RESOURCES) + "shaders/3_3_models/model.vertex")
                                                .build();
 
-        glEnable(GL_DEPTH_TEST);
+        cringine::renderer::enable_depth_buffer();
+        cringine::renderer::set_clear_color(0.05f, 0.05f, 0.05f, 1.0f);
         cringine::shaders::shader_data_binder shader_binder(shader);
         m_engine->start([&, this]() {
-            glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            cringine::renderer::clear();
 
             shader.use();
             glm::mat4 projection = glm::perspective(m_camera.zoom(), (float) 800 / (float) 600, 0.1f, 100.0f);
