@@ -2,7 +2,6 @@ add_executable(study_1_9_camera main.cpp)
 target_link_libraries(study_1_9_camera
     cringine_core
     libglew_static
-    soil2
     glm
 )
 add_custom_command(

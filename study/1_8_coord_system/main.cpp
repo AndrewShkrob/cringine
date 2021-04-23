@@ -1,35 +1,16 @@
 #include <GL/glew.h>
 
-#include <SOIL2.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <cringine/graphics/shader_program_builder.hpp>
+#include <cringine/shaders/shader_program_builder.hpp>
 #include <cringine/core/engine.hpp>
+#include <cringine/utils/load_from_file.hpp>
 
 #include <cmath>
 #include <iostream>
 #include <array>
-
-GLuint load_texture(const std::string& img_path)
-{
-    int width;
-    int height;
-    unsigned char* image = SOIL_load_image(img_path.c_str(), &width, &height, nullptr, SOIL_LOAD_RGB);
-    GLuint texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    SOIL_free_image_data(image);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    return texture;
-}
 
 GLuint generate_cube_vao()
 {
@@ -112,12 +93,12 @@ int main()
     glEnable(GL_DEPTH_TEST);
     glViewport(0, 0, engine.window().width(), engine.window().height());
 
-    cringine::shader_program shaderProgram =
-        cringine::shader_program_builder().add_vertex_shader("shaders/shader.vertex").add_fragment_shader("shaders/shader.fragment").build();
+    cringine::shaders::shader shaderProgram =
+        cringine::shaders::shader_program_builder().add_vertex_shader("shaders/shader.vertex").add_fragment_shader("shaders/shader.fragment").build();
 
     GLuint cubeVAO = generate_cube_vao();
-    GLuint texture1 = load_texture("textures/container.jpg");
-    GLuint texture2 = load_texture("textures/awesomeface.png");
+    GLuint texture1 = cringine::utils::texture_from_file("textures/container.jpg");
+    GLuint texture2 = cringine::utils::texture_from_file("textures/awesomeface.png");
 
     std::array<glm::vec3, 10> cubePositions = {
         glm::vec3(0.0f, 0.0f, 0.0f),
@@ -137,20 +118,20 @@ int main()
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
-        glUniform1i(glGetUniformLocation(shaderProgram.program(), "ourTexture1"), 0);
+        glUniform1i(glGetUniformLocation(shaderProgram.id(), "ourTexture1"), 0);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture2);
-        glUniform1i(glGetUniformLocation(shaderProgram.program(), "ourTexture2"), 1);
+        glUniform1i(glGetUniformLocation(shaderProgram.id(), "ourTexture2"), 1);
         GLfloat mix_val = static_cast<GLfloat>(sin(glfwGetTime())) * 0.5f + 0.5f;
-        glUniform1f(glGetUniformLocation(shaderProgram.program(), "mixValue"), mix_val);
+        glUniform1f(glGetUniformLocation(shaderProgram.id(), "mixValue"), mix_val);
 
         glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3.0f));
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(engine.window().width()) / static_cast<float>(engine.window().height()), 0.1f, 100.0f);
 
-        GLint modelLoc = glGetUniformLocation(shaderProgram.program(), "model");
-        GLint viewLoc = glGetUniformLocation(shaderProgram.program(), "view");
+        GLint modelLoc = glGetUniformLocation(shaderProgram.id(), "model");
+        GLint viewLoc = glGetUniformLocation(shaderProgram.id(), "view");
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-        GLint projLoc = glGetUniformLocation(shaderProgram.program(), "projection");
+        GLint projLoc = glGetUniformLocation(shaderProgram.id(), "projection");
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
         shaderProgram.use();

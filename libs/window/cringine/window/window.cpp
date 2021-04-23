@@ -42,7 +42,7 @@ window::window(int width, int height, std::string title)
         throw std::runtime_error("Failed to create GLFW window");
     }
     m_event_system = std::make_shared<event_system::glfw_event_system>(m_window);
-    //    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwMakeContextCurrent(m_window);
     m_event_system->register_window_resize_callback(this);
 }
@@ -55,6 +55,11 @@ window::~window()
 event_system::event_system_sptr window::event_system()
 {
     return m_event_system;
+}
+
+void window::set_title(const std::string& title) const
+{
+    glfwSetWindowTitle(m_window, title.c_str());
 }
 
 int window::width() const

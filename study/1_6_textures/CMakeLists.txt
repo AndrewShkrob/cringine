@@ -2,7 +2,6 @@ add_executable(study_1_6_textures main.cpp)
 target_link_libraries(study_1_6_textures
     cringine_core
     libglew_static
-    soil2
 )
 add_custom_command(
     TARGET study_1_6_textures PRE_BUILD

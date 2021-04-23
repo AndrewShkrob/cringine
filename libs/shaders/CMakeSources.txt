@@ -1,0 +1,8 @@
+set(CRINGINE_SHADERS_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/shaders/shader.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/shaders/shader.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/shaders/shader_data_binder.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/shaders/shader_data_binder.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/shaders/shader_program_builder.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/shaders/shader_program_builder.cpp
+)

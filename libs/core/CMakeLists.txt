@@ -6,7 +6,9 @@ add_library(${CRINGINE_LIB_NAME} STATIC ${CRINGINE_CORE_SOURCES})
 target_include_directories(${CRINGINE_LIB_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_link_libraries(${CRINGINE_LIB_NAME}
     PUBLIC cringine_event_system
-    PUBLIC cringine_graphics
+    PUBLIC cringine_models
+    PUBLIC cringine_renderer
+    PUBLIC cringine_shaders
     PUBLIC cringine_types
     PUBLIC cringine_utils
     PUBLIC cringine_window

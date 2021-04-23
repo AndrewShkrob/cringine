@@ -25,6 +25,8 @@ namespace cringine
 
         event_system::event_system_sptr event_system();
 
+        void set_title(const std::string& title) const;
+
         [[nodiscard]] int width() const;
         [[nodiscard]] int height() const;
 

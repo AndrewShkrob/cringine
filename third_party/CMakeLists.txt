@@ -1,4 +1,5 @@
+add_subdirectory(assimp)
 add_subdirectory(glew-cmake)
 add_subdirectory(glfw)
 add_subdirectory(glm)
-add_subdirectory(soil2-cmake)
+add_subdirectory(stb-cmake)

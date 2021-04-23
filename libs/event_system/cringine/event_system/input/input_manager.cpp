@@ -131,6 +131,9 @@ void input_manager::scroll_input(double dx, double dy)
 
 void input_manager::keyboard_input(keys::key_t key, bool new_state)
 {
+    if (key == keys::KEY_UNKNOWN) {
+        return;
+    }
     m_key_current_states.at(key) = new_state;
 }
 

@@ -2,7 +2,6 @@ add_executable(study_2_2_basic_lighting main.cpp)
 target_link_libraries(study_2_2_basic_lighting
     cringine_core
     libglew_static
-    soil2
     glm
 )
 add_custom_command(

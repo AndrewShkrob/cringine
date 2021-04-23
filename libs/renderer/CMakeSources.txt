@@ -1,0 +1,11 @@
+set(CRINGINE_RENDERER_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/renderer/types/rendered_mesh.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/renderer/types/rendered_mesh.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/renderer/mesh_renderer.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/renderer/mesh_renderer.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/renderer/renderer.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/renderer/renderer_initializer.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/renderer/renderer_initializer.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/renderer/renderer_utils.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/renderer/renderer_utils.cpp
+)
