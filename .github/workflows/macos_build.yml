@@ -26,6 +26,7 @@ jobs:
           mkdir build
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+          cmake .. -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
       - name: Build
         shell: bash
         run: |
