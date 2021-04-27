@@ -26,8 +26,9 @@ jobs:
           mkdir build
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+          cmake .. -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
       - name: Build
         shell: bash
         run: |
           cd build
-          cmake --build . --target example_test --config ${{matrix.build_type}} -j6
+          cmake --build . --config ${{matrix.build_type}} -j6
