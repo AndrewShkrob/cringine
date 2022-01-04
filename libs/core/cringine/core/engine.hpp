@@ -4,7 +4,6 @@
 #include <cringine/event_system/events/window_close.hpp>
 #include <cringine/event_system/event_system.hpp>
 #include <cringine/event_system/input/input_manager.hpp>
-#include <cringine/types/configuration/window_configuration.hpp>
 #include <cringine/utils/fps_counter.hpp>
 
 namespace cringine
@@ -14,7 +13,7 @@ namespace cringine
     public:
         using render_func = std::function<void()>;
 
-        explicit engine(const types::configuration::window_configuration& window_config);
+        explicit engine(window::window_sptr window);
 
         void start(const render_func& func);
 
@@ -28,7 +27,7 @@ namespace cringine
 
         [[nodiscard]] double time() const;
 
-        [[nodiscard]] const cringine::window& window() const;
+        [[nodiscard]] const window::window_sptr& window() const;
 
         [[nodiscard]] const event_system::input::input_manager& input_manager() const;
 
@@ -42,7 +41,7 @@ namespace cringine
         bool m_running = false;
         bool m_stop = true;
 
-        cringine::window m_window;
+        window::window_sptr m_window;
         event_system::event_system_sptr m_event_system;
         event_system::input::input_manager m_input_manager;
         utils::fps_counter m_fps_counter;

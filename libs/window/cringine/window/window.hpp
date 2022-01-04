@@ -1,49 +1,23 @@
 #pragma once
 
 #include <cringine/event_system/event_system.hpp>
-#include <cringine/types/configuration/window_configuration.hpp>
 
-#include <string>
-#include <functional>
+#include <memory>
 
-#ifdef __APPLE__
-#define GLFW_INCLUDE_GLCOREARB
-#endif
-
-#include <GLFW/glfw3.h>
-
-namespace cringine
+namespace cringine::window
 {
-    class window : event_system::events::window_resize_event
+    class window
     {
     public:
-        explicit window(const types::configuration::window_configuration& window_config);
-        window(int width, int height, std::string title);
-        ~window();
+        virtual ~window() = default;
 
-        window(const window&) = default;
-        window(window&&) = default;
+        virtual event_system::event_system_sptr event_system() = 0;
 
-        window& operator=(const window&) = default;
-        window& operator=(window&&) = default;
+        virtual void set_title(const std::string& title) = 0;
 
-        event_system::event_system_sptr event_system();
-
-        void set_title(const std::string& title) const;
-
-        [[nodiscard]] int width() const;
-        [[nodiscard]] int height() const;
-
-        void update() const;
-        void render() const;
-
-    private:
-        void window_resize(int new_width, int new_height) override;
-
-        int m_width;
-        int m_height;
-        std::string m_title;
-        GLFWwindow* m_window;
-        event_system::event_system_sptr m_event_system;
+        virtual void update() = 0;
+        virtual void render() = 0;
     };
-} // namespace cringine
+
+    using window_sptr = std::shared_ptr<window>;
+} // namespace cringine::window

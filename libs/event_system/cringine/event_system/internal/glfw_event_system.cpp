@@ -91,7 +91,7 @@ void glfw_event_system::init()
     });
     glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
         auto& self = *static_cast<glfw_event_system*>(glfwGetWindowUserPointer(window));
-        self.m_window_resize_observer.notify(&events::window_resize_event::window_resize, width, height);
+        self.m_window_resize_observer.notify(&events::window_resize_event::window_resize, window::window_size{width, height});
     });
     glfwSetWindowFocusCallback(m_window, [](GLFWwindow* window, int focused) {
         auto& self = *static_cast<glfw_event_system*>(glfwGetWindowUserPointer(window));

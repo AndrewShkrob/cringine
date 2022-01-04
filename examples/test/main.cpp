@@ -6,6 +6,7 @@
 #include <cringine/shaders/shader_program_builder.hpp>
 #include <cringine/shaders/shader_data_binder.hpp>
 #include <cringine/types/camera.hpp>
+#include <cringine/window/window_builder.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -53,8 +54,13 @@ public:
 
     void init()
     {
-        cringine::types::configuration::window_configuration window_config{800, 600, "Hello"};
-        m_engine = std::make_unique<cringine::engine>(window_config);
+        cringine::window::window_builder window_builder;
+        window_builder
+            .set_size({800, 600})
+            .set_title("Hello")
+            .set_resizable(false)
+            .set_use_cursor(false);
+        m_engine = std::make_unique<cringine::engine>(window_builder.build());
         m_camera = cringine::types::camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
         m_engine->event_system()->register_window_close_callback(this);
@@ -96,7 +102,7 @@ public:
             title.str("");
             title.clear();
             title << "FPS: " << std::setfill('0') << std::setw(5) << m_engine->fps() << " Delta time: " << m_engine->delta_time();
-            m_engine->window().set_title(title.str());
+            m_engine->window()->set_title(title.str());
         });
     }
 
