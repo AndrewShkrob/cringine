@@ -5,21 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(RESOURCES_PATH ${CMAKE_CURRENT_LIST_DIR}/resources/)
 
-# Configure Assimp
-set(ASSIMP_INSTALL OFF)
-set(ASSIMP_BUILD_ZLIB ON)
-set(ASSIMP_BUILD_TESTS OFF)
-set(BUILD_SHARED_LIBS OFF)
-set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
-set(ASSIMP_NO_EXPORT ON)
-set(ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT OFF)
-set(ASSIMP_BUILD_OBJ_IMPORTER ON)
-set(ASSIMP_BUILD_FBX_IMPORTER ON)
-set(ASSIMP_BUILD_3DS_IMPORTER ON)
-set(ASSIMP_BUILD_TESTS OFF)
-set(INJECT_DEBUG_POSTFIX OFF)
+include(cmake/assimp.cmake)
 
 add_subdirectory(third_party)
 add_subdirectory(libs)
 add_subdirectory(examples)
-add_subdirectory(study)
