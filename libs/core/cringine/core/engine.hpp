@@ -6,6 +6,8 @@
 #include <cringine/event_system/input/input_manager.hpp>
 #include <cringine/utils/fps_counter.hpp>
 
+#include <functional>
+
 namespace cringine
 {
     class engine : cringine::event_system::events::window_close_event
