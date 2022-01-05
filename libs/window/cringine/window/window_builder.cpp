@@ -6,7 +6,7 @@ namespace cringine::window
 {
     window_builder& window_builder::set_size(const window_size& window_size)
     {
-        window_configuration.window_size = window_size;
+        window_configuration.size = window_size;
         return *this;
     }
 
