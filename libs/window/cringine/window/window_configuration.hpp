@@ -12,7 +12,7 @@ namespace cringine::window
 
     struct window_configuration
     {
-        window_size window_size{};
+        window_size size{};
         std::string title{};
         bool resizable = false;
         bool use_cursor = false;

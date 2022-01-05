@@ -31,8 +31,8 @@ namespace cringine::window::internal
             init_glfw();
 
             GLFWwindow* window = glfwCreateWindow(
-                window_configuration.window_size.width,
-                window_configuration.window_size.height,
+                window_configuration.size.width,
+                window_configuration.size.height,
                 window_configuration.title.c_str(),
                 nullptr,
                 nullptr);
@@ -78,7 +78,7 @@ namespace cringine::window::internal
 
     window_size glfw_window::size() const
     {
-        return m_window_configuration.window_size;
+        return m_window_configuration.size;
     }
 
     void glfw_window::update()
@@ -93,6 +93,6 @@ namespace cringine::window::internal
 
     void glfw_window::window_resize(window_size window_size)
     {
-        m_window_configuration.window_size = window_size;
+        m_window_configuration.size = window_size;
     }
 } // namespace cringine::window::internal

@@ -59,7 +59,7 @@ public:
             .set_size({800, 600})
             .set_title("Hello")
             .set_resizable(false)
-            .set_use_cursor(false);
+            .set_use_cursor(true);
         m_engine = std::make_unique<cringine::engine>(window_builder.build());
         m_camera = cringine::types::camera(glm::vec3(0.0f, 0.0f, 3.0f));
 

@@ -18,6 +18,6 @@ namespace cringine::window
 
         window_sptr build();
     private:
-        window_configuration window_configuration;
+        window_configuration m_window_configuration;
     };
 }
