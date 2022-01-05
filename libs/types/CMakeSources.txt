@@ -1,5 +1,4 @@
 set(CRINGINE_TYPES_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/cringine/types/configuration/window_configuration.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/types/lighting/all.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/types/lighting/light.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/types/lighting/directional_light.hpp

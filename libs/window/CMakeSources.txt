@@ -1,4 +1,8 @@
 set(CRINGINE_WINDOW_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/window/internal/glfw_window.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/window/internal/glfw_window.hpp
     ${CMAKE_CURRENT_LIST_DIR}/cringine/window/window.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/cringine/window/window.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/window/window_builder.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/window/window_builder.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/cringine/window/window_configuration.hpp
 )
